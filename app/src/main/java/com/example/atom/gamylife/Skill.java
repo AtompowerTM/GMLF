@@ -1,4 +1,4 @@
-package Skill;
+package com.example.atom.gamylife;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -129,6 +129,11 @@ public class Skill implements Parcelable{
     public int getLevel() {
 
         return level;
+    }
+
+    public int getExp() {
+
+        return exp;
     }
 
     public int getExpForCurLevel() {

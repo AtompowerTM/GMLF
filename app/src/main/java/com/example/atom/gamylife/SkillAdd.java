@@ -12,7 +12,6 @@ import android.widget.EditText;
 
 import Database.GamylifeDB;
 import Database.GamylifeDbHelper;
-import Skill.Skill;
 
 public class SkillAdd extends AppCompatActivity {
 
@@ -38,6 +37,7 @@ public class SkillAdd extends AppCompatActivity {
         long skillID;
         final EditText textName = (EditText) findViewById(R.id.editTextNameSkillAdd);
         final EditText textDescription = (EditText) findViewById(R.id.editTextDescriptionSkillAdd);
+        final int startExp = 3500;   //0 exp for new skills
 
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
@@ -48,7 +48,7 @@ public class SkillAdd extends AppCompatActivity {
 
         values.put(GamylifeDB.GamylifeSkillEntry.COLUMN_NAME_NAME, name);
         values.put(GamylifeDB.GamylifeSkillEntry.COLUMN_NAME_DESCRIPTION, description);
-        values.put(GamylifeDB.GamylifeSkillEntry.COLUMN_NAME_EXPERIENCE, 0);
+        values.put(GamylifeDB.GamylifeSkillEntry.COLUMN_NAME_EXPERIENCE, startExp);
 
         skillID = db.insert(GamylifeDB.GamylifeSkillEntry.TABLE_NAME, null, values);
 
@@ -60,7 +60,7 @@ public class SkillAdd extends AppCompatActivity {
         returnIntent.putExtra("SKILL_EXP", 0);
         */
 
-        Skill newSkill = new Skill(skillID, name, description, 0);
+        Skill newSkill = new Skill(skillID, name, description, startExp);
 
         Bundle bundle = new Bundle();
         bundle.putParcelable("skill", newSkill);

@@ -6,6 +6,8 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.atom.gamylife.Skills;
+
 /**
  * Created by Atom on 04/04/2017.
  */

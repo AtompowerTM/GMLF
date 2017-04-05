@@ -88,6 +88,15 @@ android:layout_height="match_parent">
             android:layout_toStartOf="@+id/progressBarSkillEdit"
             android:text="Level:" />
 
+        <TextView
+            android:id="@+id/textViewExpInfoSkillEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/progressBarSkillEdit"
+            android:text="TextView"
+            android:layout_alignEnd="@+id/progressBarSkillEdit"
+            android:layout_toEndOf="@+id/textViewLevelSkillEdit" />
+
     </RelativeLayout>
 
 </LinearLayout>
