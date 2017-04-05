@@ -2,7 +2,6 @@ package Skill;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.StringBuilderPrinter;
 
 /**
  * Created by Atom on 22/02/2017.
@@ -12,24 +11,45 @@ public class Skill implements Parcelable{
 
     private String name;
     private String description;
-    private int exp;
+    private int totalExp;   //total exp (saved in the database)
+    private int exp;        //exp earned for the current level
     private long skillID;
+    private int level;
+    private int expForCurLevel;
 
-    //Used when creating new skill from app
-    public Skill(String newName, String newDescr, int newExp) {
+    //Used when creating new skill from app!!!!!!!!!!!!
+    public Skill(String newName, String newDescr, int newTotalExp) {
 
         name = newName;
         description = newDescr;
-        exp = newExp;
+        totalExp = newTotalExp;
+        initializeLevelAndExp();
     }
 
     //Used when getting skills from the database
-    public Skill(long skillID, String newName, String newDescr, int newExp) {
+    public Skill(long skillID, String newName, String newDescr, int newTotalExp) {
 
         this.skillID = skillID;
         name = newName;
         description = newDescr;
-        exp = newExp;
+        totalExp = newTotalExp;
+        initializeLevelAndExp();
+    }
+
+    /*initialize the current level, expForCurLevel, and exp gained in the current level
+    by extracting that info from the total experience earned */
+    private void initializeLevelAndExp() {
+
+        exp = totalExp;
+
+        expForCurLevel = 1000;
+        level = 1;
+
+        while( exp >= expForCurLevel ) {
+            exp -= expForCurLevel;
+            level++;
+            expForCurLevel += 1000;
+        }
     }
 
     public Skill(Parcel in){
@@ -39,7 +59,8 @@ public class Skill implements Parcelable{
         skillID = Long.parseLong(data[0]);
         name = data[1];
         description = data[2];
-        exp = Integer.parseInt(data[3]);
+        totalExp = Integer.parseInt(data[3]);
+        initializeLevelAndExp();
     }
 
 
@@ -67,7 +88,7 @@ public class Skill implements Parcelable{
 
         dest.writeStringArray(new String[] {Long.toString(skillID), name,
                 description,
-                Integer.toString(exp)});
+                Integer.toString(totalExp)});
     }
 
     public void setName(String newName) {
@@ -90,14 +111,14 @@ public class Skill implements Parcelable{
         return description;
     }
 
-    public void setExp(int newExp) {
+    public void setTotalExp(int newExp) {
 
-        exp = newExp;
+        totalExp = newExp;
     }
 
-    public int getExp() {
+    public int getTotalExp() {
 
-        return exp;
+        return totalExp;
     }
 
     public long getID() {
@@ -105,23 +126,18 @@ public class Skill implements Parcelable{
         return skillID;
     }
 
-    public void setID(long skillID) {
-
-        this.skillID = skillID;
-    }
-
     public int getLevel() {
-
-        int expForCurLevel = 1000;
-        int level = 1;
-
-        while( exp >= expForCurLevel ) {
-            exp -= expForCurLevel;
-            expForCurLevel += 1000;
-            level++;
-        }
 
         return level;
     }
 
+    public int getExpForCurLevel() {
+
+        return expForCurLevel;
+    }
+
+    public int getExpTillNextLevel() {
+
+        return expForCurLevel - exp;
+    }
 }

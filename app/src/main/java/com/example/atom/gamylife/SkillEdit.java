@@ -41,13 +41,11 @@ public class SkillEdit extends AppCompatActivity {
         if(currentSkill != null) {
             name.setText(currentSkill.getName());
             description.setText(currentSkill.getDescription());
-            levelLabel.setText(Long.toString(currentSkill.getID()));
+            levelLabel.setText("Level: " + Long.toString(currentSkill.getLevel()));
         } else {
             Toast toast = Toast.makeText(this, "Error! Could not retreive skill.", Toast.LENGTH_LONG);
             toast.show();
         }
-
-
 
         final Button DoneEditSkill = (Button) findViewById(R.id.buttonSkillDoneSkillEdit);
         final GamylifeDbHelper mDbHelper = new GamylifeDbHelper(this);

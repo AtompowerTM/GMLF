@@ -38,22 +38,17 @@ public class AdapterSkill extends RecyclerView.Adapter<AdapterSkill.SkillViewHol
 
         Skill skill = skillList.get(position);
 
-        int expForCurLevel = 1000;
-        int exp = skill.getExp();
-        int level = 1;
-
-        while( exp >= expForCurLevel ) {
-            exp -= expForCurLevel;
-            expForCurLevel += 1000;
-            level++;
-        }
+        int expForCurLevel = skill.getExpForCurLevel();
+        int expTillNextLevel = skill.getExpTillNextLevel();
+        int level = skill.getLevel();
+        int expProgress = expForCurLevel - expTillNextLevel;
 
         holder.progressBar.setMax(expForCurLevel);
-        holder.progressBar.setProgress(exp);
+        holder.progressBar.setProgress(expProgress);
 
         holder.textLevel.setText("Level " + Integer.toString(level) + " ");
         holder.textName.setText(skill.getName().toString());
-        holder.textExp.setText((expForCurLevel - exp) + " EXP to next level");
+        holder.textExp.setText(expTillNextLevel + " EXP to next level");
     }
 
     @Override
