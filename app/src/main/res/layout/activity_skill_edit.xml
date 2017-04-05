@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/labelNameSkillEdit"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_above="@+id/editTextDescriptionSkillEdit"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:text="Name:" />
+
+        <EditText
+            android:id="@+id/editTextNameSkillEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/editTextDescriptionSkillEdit"
+            android:layout_toRightOf="@id/labelNameSkillEdit"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:ems="10"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:paddingBottom="2dp"
+            android:background="@drawable/edit_text_background"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/labelDescriptionSkillEdit"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:text="Description:"
+            android:layout_alignBaseline="@+id/editTextDescriptionSkillEdit"
+            android:layout_alignBottom="@+id/editTextDescriptionSkillEdit"
+            android:layout_toStartOf="@+id/editTextDescriptionSkillEdit" />
+
+        <EditText
+            android:id="@+id/editTextDescriptionSkillEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/buttonSkillDoneSkillEdit"
+            android:layout_below="@id/editTextNameSkillEdit"
+            android:ems="10"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:lines="4"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:paddingBottom="2dp"
+            android:background="@drawable/edit_text_background"
+            android:layout_toEndOf="@+id/labelNameSkillEdit" />
+
+        <Button
+            android:id="@+id/buttonSkillDoneSkillEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="Done" />
+
+        <ProgressBar
+            android:id="@+id/progressBarSkillEdit"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/editTextDescriptionSkillEdit"
+            android:layout_below="@+id/editTextDescriptionSkillEdit"
+            android:layout_marginTop="14dp"
+            android:layout_toEndOf="@+id/labelDescriptionSkillEdit" />
+
+        <TextView
+            android:id="@+id/textViewLevelSkillEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/progressBarSkillEdit"
+            android:layout_alignStart="@+id/labelDescriptionSkillEdit"
+            android:layout_toStartOf="@+id/progressBarSkillEdit"
+            android:text="Level:" />
+
+    </RelativeLayout>
+
+</LinearLayout>
