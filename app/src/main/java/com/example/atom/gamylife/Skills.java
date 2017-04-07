@@ -138,9 +138,9 @@ public class Skills extends AppCompatActivity {
             */
             bundle = data.getBundleExtra("bundle");
             skillEntries.add((Skill) bundle.getParcelable("skill"));
-            Toast toast = Toast.makeText(this, skillEntries.get(skillEntries.size()-1).getID() +
-                    " " + skillEntries.get(skillEntries.size()-1).getName(), Toast.LENGTH_LONG);
-            toast.show();
+            //Toast toast = Toast.makeText(this, skillEntries.get(skillEntries.size()-1).getID() +
+            //        " " + skillEntries.get(skillEntries.size()-1).getName(), Toast.LENGTH_LONG);
+            //toast.show();
             adapter.notifyDataSetChanged();
         }
     }

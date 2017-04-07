@@ -53,6 +53,7 @@ public class Skill implements Parcelable{
     }
 
     public Skill(Parcel in){
+
         String[] data = new String[4];
 
         in.readStringArray(data);
