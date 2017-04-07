@@ -1,6 +1,5 @@
 package com.example.atom.gamylife;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
