@@ -10,15 +10,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
 import Database.GamylifeDB;
-import Database.GamylifeDbHelper;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -33,7 +30,6 @@ public class SkillsFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
 
     private SQLiteDatabase db;
-    //private GamylifeDbHelper mDbHelper;
     private ArrayList<Skill> skillEntries;
 
     private static final String SQL_SELECT_ALL_SKILLS = "SELECT * FROM " +
@@ -46,8 +42,6 @@ public class SkillsFragment extends Fragment {
         View layout= inflater.inflate(R.layout.activity_skills_fragment, viewGroup, false);
 
         //Fetch the database
-        //mDbHelper = new GamylifeDbHelper(layout.getContext());
-        //db = mDbHelper.getReadableDatabase();
         db = ((MainActivity)getActivity()).db;
 
         //Fill the array list with the skills in the database

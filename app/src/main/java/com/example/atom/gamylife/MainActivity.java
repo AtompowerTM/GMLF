@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity{
 
         //Initialize SQLite DB
         mDbHelper = new GamylifeDbHelper(this);
-        db = mDbHelper.getReadableDatabase();
+        db = mDbHelper.getWritableDatabase();
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -47,6 +47,5 @@ public class MainActivity extends AppCompatActivity{
 
         viewPager.setAdapter(new PageAdapter(getSupportFragmentManager(), fragments));
         tabLayout.setupWithViewPager(viewPager);
-
     }
 }

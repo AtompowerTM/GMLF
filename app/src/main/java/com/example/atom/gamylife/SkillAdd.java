@@ -37,7 +37,7 @@ public class SkillAdd extends AppCompatActivity {
         long skillID;
         final EditText textName = (EditText) findViewById(R.id.editTextNameSkillAdd);
         final EditText textDescription = (EditText) findViewById(R.id.editTextDescriptionSkillAdd);
-        final int startExp = 3500;   //0 exp for new skills
+        final int startExp = 0;   //0 exp for new skills
 
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
