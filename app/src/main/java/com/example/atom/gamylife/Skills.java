@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TabWidget;
+import android.widget.TableLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,6 +29,9 @@ public class Skills extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    public TabLayout tabLayout;
+    public TabLayout.Tab skillTab;
+    public TabLayout.Tab questTab;
 
     private GamylifeDbHelper mDbHelper;
     private SQLiteDatabase db;
@@ -43,6 +49,11 @@ public class Skills extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.addTab(tabLayout.newTab().setText("Skills"));
+        tabLayout.addTab(tabLayout.newTab().setText("Quests"));
+        tabLayout.addTab(tabLayout.newTab().setText("Calendar"));
 
         //Initialize SQLite DB
         mDbHelper = new GamylifeDbHelper(this);
