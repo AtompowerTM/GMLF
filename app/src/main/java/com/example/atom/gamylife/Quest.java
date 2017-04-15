@@ -1,7 +1,11 @@
 package com.example.atom.gamylife;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Atom on 06/04/2017.
@@ -9,11 +13,27 @@ import android.os.Parcelable;
 
 public class Quest implements Parcelable {
 
+    private long questID;
     private String name;
+    private String description;
+    private int experience;
+    private ArrayList<Skill> skillAffected;
+    private int duration;   //in minutes
+    private Date scheduled;
+    private Quest parent;
 
-    public void Quest(String name) {
 
-        this.name = name;
+    public void Quest(long newQuestID, String newName, String newDescr, int newExp,
+                      ArrayList<Skill> newSkillsAffected, int newDuration, Date newScheduled,
+                      Quest newParent) {
+        questID = newQuestID;
+        name = newName;
+        description = newDescr;
+        experience = newExp;
+        skillAffected = newSkillsAffected;
+        duration = newDuration;
+        scheduled = newScheduled;
+        parent = newParent;
     }
 
     public Quest(Parcel in) {

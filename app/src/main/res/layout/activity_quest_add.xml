@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/labelNameQuestAdd"
+            android:layout_width="80dp"
+            android:layout_height="24dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/editTextNameQuestAdd"
+            android:layout_marginLeft="10dp"
+            android:paddingTop="5dp"
+            android:text="Name:"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/editTextNameQuestAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/labelNameQuestAdd"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:ems="10"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:paddingBottom="2dp"
+            android:background="@drawable/edit_text_background"
+            android:inputType="textPersonName"
+            android:layout_alignEnd="@+id/buttonDoneQuestAdd" />
+
+        <TextView
+            android:id="@+id/labelDescriptionQuestAdd"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:text="Description:"
+            android:textStyle="bold"
+            android:layout_toStartOf="@+id/editTextDescriptionQuestAdd"
+            android:layout_below="@+id/editTextNameQuestAdd"
+            android:layout_alignBottom="@+id/editTextDescriptionQuestAdd" />
+
+        <EditText
+            android:id="@+id/editTextDescriptionQuestAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextNameQuestAdd"
+            android:ems="10"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:lines="4"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:paddingBottom="2dp"
+            android:background="@drawable/edit_text_background"
+            android:layout_alignEnd="@+id/editTextNameQuestAdd"
+            android:layout_toEndOf="@+id/labelNameQuestAdd" />
+
+        <TextView
+            android:id="@+id/labelExpTextQuestAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editTextDescriptionQuestAdd"
+            android:layout_alignEnd="@+id/editTextDescriptionQuestAdd"
+            android:layout_marginTop="15dp"
+            android:text="xp"/>
+
+        <TextView
+            android:id="@+id/labelExpQuestAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editTextDescriptionQuestAdd"
+            android:layout_toLeftOf="@+id/labelExpTextQuestAdd"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="2dp"
+            android:text="0"/>
+x
+        <TextView
+            android:id="@+id/labelRewardQuestAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_alignStart="@+id/labelName"
+            android:layout_below="@+id/labelDescriptionQuestAdd"
+            android:text="Reward:"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/labelDifficultyQuestAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/labelExpTextQuestAdd"
+            android:layout_alignStart="@id/editTextDescriptionQuestAdd"
+            android:layout_marginTop="10dp"
+            android:text="Difficulty:"
+            android:textSize="10sp"/>
+
+        <TextView
+            android:id="@+id/labelDifficultyPercentQuestAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/labelExpTextQuestAdd"
+            android:layout_toEndOf="@id/labelDifficultyQuestAdd"
+            android:layout_marginTop="10dp"
+            android:text="0%"
+            android:paddingLeft="2dp"
+            android:textSize="10sp"/>
+
+        <TextView
+            android:id="@+id/labelDifficultyTextQuestAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/labelExpTextQuestAdd"
+            android:layout_alignEnd="@id/editTextDescriptionQuestAdd"
+            android:layout_marginTop="10dp"
+            android:textSize="10sp"
+            android:text="None"/>
+
+        <SeekBar
+            android:id="@+id/seekBarDifficultyQuestAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/editTextDescriptionQuestAdd"
+            android:layout_below="@+id/labelDifficultyQuestAdd"
+            android:layout_marginTop="2dp"
+            android:layout_alignEnd="@+id/editTextDescriptionQuestAdd" />
+
+        <TextView
+            android:id="@+id/labelUrgencyQuestAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/seekBarDifficultyQuestAdd"
+            android:layout_alignStart="@id/editTextDescriptionQuestAdd"
+            android:text="Urgency:"
+            android:textSize="10sp"
+            android:layout_alignEnd="@+id/labelDifficultyQuestAdd" />
+
+        <TextView
+            android:id="@+id/labelUrgencyPercentQuestAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/seekBarDifficultyQuestAdd"
+            android:text="0%"
+            android:paddingLeft="2dp"
+            android:textSize="10sp"
+            android:layout_alignEnd="@+id/labelDifficultyPercentQuestAdd" />
+
+        <TextView
+            android:id="@+id/labelUrgencyTextQuestAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/seekBarDifficultyQuestAdd"
+            android:layout_alignEnd="@id/editTextDescriptionQuestAdd"
+            android:layout_marginTop="5dp"
+            android:textSize="10sp"
+            android:text="None"/>
+
+        <SeekBar
+            android:id="@+id/seekBarUrgencyQuestAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/editTextDescriptionQuestAdd"
+            android:layout_below="@+id/labelUrgencyQuestAdd"
+            android:layout_marginTop="2dp"
+            android:layout_alignEnd="@+id/editTextDescriptionQuestAdd" />
+
+        <TextView
+            android:id="@+id/labelPriorityQuestAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/seekBarUrgencyQuestAdd"
+            android:layout_alignStart="@id/editTextDescriptionQuestAdd"
+            android:text="Priority:"
+            android:textSize="10sp"
+            android:layout_alignEnd="@+id/labelUrgencyQuestAdd" />
+
+        <TextView
+            android:id="@+id/labelPriorityPercentQuestAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/seekBarUrgencyQuestAdd"
+            android:text="0%"
+            android:paddingLeft="2dp"
+            android:textSize="10sp"
+            android:layout_alignEnd="@+id/labelDifficultyPercentQuestAdd" />
+
+        <TextView
+            android:id="@+id/labelPriorityTextQuestAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/seekBarUrgencyQuestAdd"
+            android:layout_alignEnd="@id/editTextDescriptionQuestAdd"
+            android:layout_marginTop="5dp"
+            android:textSize="10sp"
+            android:text="None"/>
+
+        <SeekBar
+            android:id="@+id/seekBarPriorityQuestAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/editTextDescriptionQuestAdd"
+            android:layout_below="@+id/labelPriorityQuestAdd"
+            android:layout_marginTop="2dp"
+            android:layout_alignEnd="@+id/editTextDescriptionQuestAdd" />
+
+        <TextView
+            android:id="@+id/labelSkillsQuestAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_alignStart="@+id/labelRewardQuestAdd"
+            android:layout_below="@id/seekBarPriorityQuestAdd"
+            android:textStyle="bold"
+            android:text="Skills:"/>
+
+        <Spinner
+            android:id="@+id/spinnerSkillSelectorQuestAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/seekBarPriorityQuestAdd"
+            android:layout_alignTop="@+id/labelSkillsQuestAdd"
+            android:layout_alignEnd="@+id/seekBarPriorityQuestAdd" />
+
+        <Button
+            android:id="@+id/buttonDoneQuestAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="Done" />
+
+    </RelativeLayout>
+
+</LinearLayout>
