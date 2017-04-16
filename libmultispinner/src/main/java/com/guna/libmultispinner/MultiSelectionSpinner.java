@@ -6,14 +6,14 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.util.AttributeSet;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.support.v7.widget.AppCompatSpinner;
 import android.widget.SpinnerAdapter;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MultiSelectionSpinner extends Spinner implements
+public class MultiSelectionSpinner extends AppCompatSpinner implements
         OnMultiChoiceClickListener {
 
     public interface OnMultipleItemsSelectedListener{
@@ -63,10 +63,10 @@ public class MultiSelectionSpinner extends Spinner implements
     @Override
     public boolean performClick() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Please select!!!");
+        builder.setTitle("Select Skills");
         builder.setMultiChoiceItems(_items, mSelection, this);
         _itemsAtStart = getSelectedItemsAsString();
-        builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 System.arraycopy(mSelection, 0, mSelectionAtStart, 0, mSelection.length);

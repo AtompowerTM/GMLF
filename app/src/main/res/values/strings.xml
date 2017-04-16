@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Gamylife</string>
     <string name="action_settings">Settings</string>
+
+        <string name="plus">+</string>
+        <string name="minus">-</string>
+
+        <string name="width">Width</string>
+        <string name="height">Height</string>
+        <string name="area">Area</string>
+        <string name="compute">Compute</string>
+        <string name="area_format">%1$d sq in</string>
 </resources>
