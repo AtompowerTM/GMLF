@@ -265,8 +265,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/seekBarPriorityQuestAdd"
                 android:layout_alignTop="@+id/labelParentQuestAdd"
-                android:layout_alignEnd="@+id/seekBarPriorityQuestAdd"
-                />
+                android:layout_alignEnd="@+id/seekBarPriorityQuestAdd"/>
+                <!--android:background="@drawable/spinner_border"-->
+
 
             <TextView
                 android:id="@+id/labelDurationQuestAdd"
@@ -330,12 +331,18 @@
                 android:textStyle="bold"
                 android:layout_toStartOf="@+id/spinnerParentSelectorQuestAdd" />
 
-            <DatePicker
-                android:id="@+id/datePickerQuestAdd"
-                android:layout_below="@id/numberPickerHoursQuestAdd"
-                android:layout_toEndOf="@id/labelScheduleQuestAdd"
+            <TextView
+                android:id="@+id/labelScheduledDateQuestAdd"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:paddingBottom="2dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_background"
+                android:layout_alignStart="@id/numberPickerHoursQuestAdd"
+                android:layout_alignEnd="@+id/editTextNameQuestAdd"
+                android:layout_below="@id/numberPickerHoursQuestAdd" />
 
         </RelativeLayout>
 
