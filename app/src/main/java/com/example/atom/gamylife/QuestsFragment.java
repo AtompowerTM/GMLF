@@ -70,8 +70,8 @@ public class QuestsFragment extends Fragment{
     //Start the quest add activity, switching to that screen
     public void addQuest(View view, Context context) {
 
-        //Intent intent = new Intent(context, QuestAdd.class);
-        //startActivityForResult(intent, 1);
+        Intent intent = new Intent(context, test.class);
+        startActivityForResult(intent, 1);
     }
 
     //Populate the skillEntries list with the skills saved in the database

@@ -221,7 +221,7 @@ x
             android:textStyle="bold"
             android:text="Skills:"/>
 
-        <Spinner
+        <com.guna.libmultispinner.MultiSelectionSpinner
             android:id="@+id/spinnerSkillSelectorQuestAdd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
