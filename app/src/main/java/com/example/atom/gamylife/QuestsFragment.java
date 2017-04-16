@@ -70,7 +70,7 @@ public class QuestsFragment extends Fragment{
     //Start the quest add activity, switching to that screen
     public void addQuest(View view, Context context) {
 
-        Intent intent = new Intent(context, test.class);
+        Intent intent = new Intent(context, QuestAdd.class);
         startActivityForResult(intent, 1);
     }
 

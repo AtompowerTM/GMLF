@@ -20,7 +20,7 @@
         </activity>
         <activity android:name="SkillAdd"></activity>
         <activity android:name="SkillEdit"></activity>
-        <activity android:name="test"></activity>
+        <activity android:name="QuestAdd"></activity>
     </application>
 
 </manifest>
