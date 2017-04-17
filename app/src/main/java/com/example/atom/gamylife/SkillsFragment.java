@@ -32,9 +32,10 @@ public class SkillsFragment extends Fragment {
     private SQLiteDatabase db;
     private ArrayList<Skill> skillEntries;
 
+    /*
     private static final String SQL_SELECT_ALL_SKILLS = "SELECT * FROM " +
             GamylifeDB.GamylifeSkillEntry.TABLE_NAME;
-
+    */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
 
@@ -45,7 +46,8 @@ public class SkillsFragment extends Fragment {
         db = ((MainActivity)getActivity()).db;
 
         //Fill the array list with the skills in the database
-        populateSkillEntries();
+        skillEntries = (((MainActivity) getActivity()).skillEntries);
+        //populateSkillEntries();
 
         final Context recyclerViewContext = layout.getContext();
 
@@ -143,7 +145,7 @@ public class SkillsFragment extends Fragment {
         Intent intent = new Intent(context, SkillAdd.class);
         startActivityForResult(intent, 1);
     }
-
+    /*
     //Populate the skillEntries list with the skills saved in the database
     private void populateSkillEntries() {
 
@@ -156,4 +158,5 @@ public class SkillsFragment extends Fragment {
                     cursor.getString(2), cursor.getInt(3)));
         }
     }
+    */
 }
