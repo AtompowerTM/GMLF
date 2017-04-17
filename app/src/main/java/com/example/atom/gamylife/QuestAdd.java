@@ -1,7 +1,9 @@
 package com.example.atom.gamylife;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -34,10 +36,11 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
 
     double expReward, baseExp, averageLevel;
     int difficulty = 0, urgency = 0, priority = 0;
+
+    ArrayList<Skill> skillEntries;
     ArrayList<Quest> questEntries;
 
-
-    EditText nameText;
+    EditText nameText, descriptionText;
 
     Button doneButton;
     TextView scheduleDate;
@@ -56,29 +59,16 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quest_add);
 
+        //get the skill and quest entries
         Bundle bundle = this.getIntent().getBundleExtra("bundle");
         if(bundle != null) {
             questEntries = bundle.getParcelableArrayList("quests");
+            skillEntries = bundle.getParcelableArrayList("skills");
         }
 
+        //_____________________________________NAME AND DESCRIPTION_________________________________
         nameText = (EditText) findViewById(R.id.editTextNameQuestAdd);
-
-        nameText.setText(questEntries.get(0).getName());
-
-        //_____________________________________BUTTON_______________________________________________
-        doneButton = (Button) findViewById(R.id.buttonDoneQuestAdd);
-        doneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("parent", Long.toString(parentSelector.getSelectedItemId()));
-
-                List<Integer> selectedSkills = skillSelector.getSelectedIndices();
-                for (int i = 0; i < selectedSkills.size(); i++)
-                    Log.d("Skills" + i, Integer.toString(selectedSkills.get(i)));
-            }
-        });
-
-
+        descriptionText = (EditText) findViewById(R.id.editTextDescriptionQuestAdd);
 
         //_____________________________________REWARD_______________________________________________
         expRewardText = (TextView) findViewById(R.id.labelExpQuestAdd);
@@ -186,20 +176,25 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
             }
         });
 
-        //_____________________________________SKILL SELECTOR TBC_______________________________________
-        String[] array = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eight2", "nine2", "ten2"};
+        //_____________________________________SKILL SELECTOR_______________________________________
+        String[] skillNames = new String [skillEntries.size()];
         skillSelector = (MultiSelectionSpinner) findViewById(R.id.spinnerSkillSelectorQuestAdd);
 
-        skillSelector.setItems(array);
+        for (int i = 0; i < skillNames.length; i++) {
+            skillNames[i] = skillEntries.get(i).getName();
+        }
+
+        skillSelector.setItems(skillNames);
         skillSelector.setListener(this);
 
         //____________________________________QUEST SELECTOR TBC________________________________________
         String[] questNames = new String[questEntries.size() + 1];
         questNames[0] = "None";
+
         for (int i = 1; i < questNames.length; i++) {
             questNames[i] = questEntries.get(i-1).getName();
         }
-        //String[] array2 = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eight2", "nine2", "ten2", "seven", "eight", "nine", "ten", "eight2", "nine2", "ten2"};
+
         ArrayAdapter<String> questAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, questNames);
         parentSelector = (Spinner) findViewById(R.id.spinnerParentSelectorQuestAdd);
 
@@ -214,7 +209,6 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
         minutePicker = (NumberPicker) findViewById(R.id.numberPickerMinutesQuestAdd);
         minutePicker.setMinValue(0);
         minutePicker.setMaxValue(59);
-
 
         //____________________________________SCHEDULE______________________________________________
         scheduleDate = (TextView) findViewById(R.id.labelScheduledDateQuestAdd);
@@ -231,6 +225,18 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
             }
         });
 
+        //_____________________________________BUTTON_______________________________________________
+        doneButton = (Button) findViewById(R.id.buttonDoneQuestAdd);
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("parent", Long.toString(parentSelector.getSelectedItemId()));
+
+                List<Integer> selectedSkills = skillSelector.getSelectedIndices();
+                for (int i = 0; i < selectedSkills.size(); i++)
+                    Log.d("Skills" + i, Integer.toString(selectedSkills.get(i)));
+            }
+        });
     }
 
     private SlideDateTimeListener listener = new SlideDateTimeListener() {
@@ -266,14 +272,14 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
 
     private void setAverageLevel() {
 
-        averageLevel = 2;
-
-        /*
         List<Integer> selectedSkills = skillSelector.getSelectedIndices();
+        averageLevel = 0;
         for (int i = 0; i < selectedSkills.size(); i++) {
-
+            averageLevel += skillEntries.get(selectedSkills.get(i)).getLevel();
         }
-        */
+
+        averageLevel = averageLevel / selectedSkills.size();
+        Log.d("avgLvl", Double.toString(averageLevel));
     }
 
     @Override

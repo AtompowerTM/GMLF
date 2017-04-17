@@ -32,6 +32,8 @@ public class QuestsFragment extends Fragment{
 
     private SQLiteDatabase db;
     private ArrayList<Quest> questEntries;
+    private ArrayList<Skill> skillEntries;
+
     /*
     private static final String SQL_SELECT_ALL_QUESTS = "SELECT * FROM " +
             GamylifeDB.GamylifeQuestEntry.TABLE_NAME;
@@ -46,6 +48,7 @@ public class QuestsFragment extends Fragment{
         //Fetch the database
         db = ((MainActivity)getActivity()).db;
         questEntries = ((MainActivity) getActivity()).questEntries;
+        skillEntries = ((MainActivity) getActivity()).skillEntries;
 
         //Fill the array list with the quests in the database
         //questEntries = new ArrayList<>();
@@ -87,6 +90,7 @@ public class QuestsFragment extends Fragment{
 
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("quests", questEntries);
+        bundle.putParcelableArrayList("skills", skillEntries);
         intent.putExtra("bundle", bundle);
         startActivityForResult(intent, 1);
     }
