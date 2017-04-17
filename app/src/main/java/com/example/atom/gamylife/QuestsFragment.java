@@ -13,7 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
+
 import java.util.ArrayList;
+import java.util.Date;
 
 import Database.GamylifeDB;
 
@@ -43,6 +46,7 @@ public class QuestsFragment extends Fragment{
         db = ((MainActivity)getActivity()).db;
 
         //Fill the array list with the quests in the database
+        questEntries = new ArrayList<>();
         //REMOVE populateQuestEntries();
 
         final Context recyclerViewContext = layout.getContext();
@@ -71,6 +75,17 @@ public class QuestsFragment extends Fragment{
     public void addQuest(View view, Context context) {
 
         Intent intent = new Intent(context, QuestAdd.class);
+
+        ArrayList<Skill> testSkill = new ArrayList<>();
+        Date testDate = new Date();
+        Quest testQuest = new Quest(24, "pencho", "", 0, testSkill, 0, testDate, -1);
+        Quest testQuest2 = new Quest(25, "gosho", "", 0, testSkill, 0, testDate, -1);
+        questEntries.add(testQuest);
+        questEntries.add(testQuest2);
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("quests", questEntries);
+        intent.putExtra("bundle", bundle);
         startActivityForResult(intent, 1);
     }
 

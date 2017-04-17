@@ -20,12 +20,11 @@ public class Quest implements Parcelable {
     private ArrayList<Skill> skillAffected;
     private int duration;   //in minutes
     private Date scheduled;
-    private Quest parent;
+    private long parentID;
 
-
-    public void Quest(long newQuestID, String newName, String newDescr, int newExp,
+    public Quest(long newQuestID, String newName, String newDescr, int newExp,
                       ArrayList<Skill> newSkillsAffected, int newDuration, Date newScheduled,
-                      Quest newParent) {
+                      long newParentID) {
         questID = newQuestID;
         name = newName;
         description = newDescr;
@@ -33,15 +32,19 @@ public class Quest implements Parcelable {
         skillAffected = newSkillsAffected;
         duration = newDuration;
         scheduled = newScheduled;
-        parent = newParent;
+        parentID = newParentID;
     }
 
     public Quest(Parcel in) {
 
-        String data [] = new String[1];
-
-        in.readStringArray(data);
-        name = data[0];
+        questID = in.readLong();
+        name = in.readString();
+        description = in.readString();
+        experience = in.readInt();
+        skillAffected = in.readArrayList(null);
+        duration = in.readInt();
+        scheduled = (Date) in.readSerializable();
+        parentID = in.readLong();
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -65,5 +68,18 @@ public class Quest implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
+        dest.writeLong(questID);
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeInt(experience);
+        dest.writeList(skillAffected);
+        dest.writeInt(duration);
+        dest.writeSerializable(scheduled);
+        dest.writeLong(parentID);
+    }
+
+    public String getName() {
+
+        return name;
     }
 }

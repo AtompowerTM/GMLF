@@ -95,7 +95,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="2dp"
                 android:text="0"/>
-            x
+
             <TextView
                 android:id="@+id/labelRewardQuestAdd"
                 android:layout_width="wrap_content"
@@ -106,6 +106,16 @@
                 android:text="Reward:"
                 android:textStyle="bold"
                 android:layout_toStartOf="@+id/labelDifficultyQuestAdd" />
+
+            <TextView
+                android:id="@+id/labelRewardVaryQuestAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17.5dp"
+                android:layout_below="@id/editTextDescriptionQuestAdd"
+                android:layout_toEndOf="@id/labelRewardQuestAdd"
+                android:text="(Varies based on skill average level)"
+                android:textSize="10sp"/>
 
             <TextView
                 android:id="@+id/labelDifficultyQuestAdd"
@@ -119,14 +129,15 @@
 
             <TextView
                 android:id="@+id/labelDifficultyPercentQuestAdd"
-                android:layout_width="wrap_content"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/labelExpTextQuestAdd"
                 android:layout_toEndOf="@id/labelDifficultyQuestAdd"
                 android:layout_marginTop="10dp"
                 android:text="0%"
                 android:paddingLeft="2dp"
-                android:textSize="10sp"/>
+                android:textSize="10sp"
+                android:gravity="right"/>
 
             <TextView
                 android:id="@+id/labelDifficultyTextQuestAdd"
