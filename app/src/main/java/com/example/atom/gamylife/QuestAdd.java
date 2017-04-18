@@ -1,7 +1,10 @@
 package com.example.atom.gamylife;
 
+import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.IntegerRes;
 import android.support.v7.app.AppCompatActivity;
@@ -20,11 +23,15 @@ import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
 import com.guna.libmultispinner.MultiSelectionSpinner;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import Database.GamylifeDB;
+import Database.GamylifeDbHelper;
 
 /**
  * Created by Atom on 16/04/2017.
@@ -32,11 +39,12 @@ import java.util.List;
 
 public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner.OnMultipleItemsSelectedListener {
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
     double expReward, baseExp, averageLevel;
     int difficulty = 0, urgency = 0, priority = 0;
 
+    SQLiteDatabase db;
     ArrayList<Skill> skillEntries;
     ArrayList<Quest> questEntries;
 
@@ -58,6 +66,10 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quest_add);
+
+        //get the database
+        final GamylifeDbHelper mDbHelper = new GamylifeDbHelper(this);
+        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         //get the skill and quest entries
         Bundle bundle = this.getIntent().getBundleExtra("bundle");
@@ -230,11 +242,86 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("parent", Long.toString(parentSelector.getSelectedItemId()));
+
+
 
                 List<Integer> selectedSkills = skillSelector.getSelectedIndices();
-                for (int i = 0; i < selectedSkills.size(); i++)
-                    Log.d("Skills" + i, Integer.toString(selectedSkills.get(i)));
+                if (selectedSkills.size() > 0) {
+                    if (!nameText.getText().toString().equals("")) {
+
+                        String questName = nameText.getText().toString();
+                        String questDescription = descriptionText.getText().toString();
+
+                        ArrayList<Skill> affectedSkills = new ArrayList<Skill>();
+
+                        for (int i = 0; i < selectedSkills.size(); i++) {
+                            affectedSkills.add(skillEntries.get(selectedSkills.get(i)));
+                            Log.d("affected", skillEntries.get(selectedSkills.get(i)).getName());
+                        }
+
+                        calculateReward();
+                        int experience = (int) expReward;
+                        long parentQuest;
+                        if ((parentSelector.getSelectedItemId() - 1) != -1) {
+                            parentQuest = questEntries.get(
+                                    (int) parentSelector.getSelectedItemId() - 1).getID(); //-1 for no
+                        } else {
+                            parentQuest = -1; // no parent
+                        }
+
+                        int duration = hourPicker.getValue() * 60 + minutePicker.getValue();
+                        String scheduledForText = scheduleDate.getText().toString();
+                        Date scheduledFor;
+                        try {
+                            scheduledFor = sdf.parse(scheduleDate.getText().toString());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            scheduledFor = new Date();
+                            Toast.makeText(v.getContext(), "Error parsing date.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                        ContentValues values = new ContentValues();
+                        values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_NAME, questName);
+                        values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_DESCRIPTION, questDescription);
+                        values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_EXPERIENCE, experience);
+                        values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_DURATION, duration);
+                        values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_SCHEDULED, scheduledForText);
+                        values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_PARENT, parentQuest);
+
+                        long questID = db.insert(GamylifeDB.GamylifeQuestEntry.TABLE_NAME, null, values);
+
+                        ContentValues valuesQuestSkill = new ContentValues();
+                        for(int i = 0; i < affectedSkills.size(); i++) {
+                            valuesQuestSkill.put(GamylifeDB.GamylifeQuestSkillEntry.COLUMN_NAME_QUEST_ID, questID);
+                            valuesQuestSkill.put(GamylifeDB.GamylifeQuestSkillEntry.COLUMN_NAME_SKILL_ID, affectedSkills.get(i).getID());
+                            db.insert(GamylifeDB.GamylifeQuestSkillEntry.TABLE_NAME, null, valuesQuestSkill);
+                            valuesQuestSkill.clear();
+                        }
+
+                        Quest newQuest = new Quest(questID, questName, questDescription, experience,
+                                affectedSkills, duration, scheduledFor, parentQuest);
+
+                        Intent returnIntent = new Intent();
+
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("quest", newQuest);
+                        returnIntent.putExtra("bundle", bundle);
+
+                        setResult(Activity.RESULT_OK, returnIntent);
+
+                        //Finish this activity and return to Skills
+                        finish();
+
+
+                    } else {
+                        Toast.makeText(v.getContext(), "Please enter quest name.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(v.getContext(), "Please choose at least one skill.",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -247,7 +334,7 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
             calendar.set(Calendar.SECOND, 0);
-            scheduleDate.setText(dateFormat.format(calendar.getTime()).toString());
+            scheduleDate.setText(sdf.format(calendar.getTime()).toString());
         }
 
         @Override

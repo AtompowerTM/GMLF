@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import java.util.Date;
 
 import Database.GamylifeDB;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by Atom on 11/04/2017.
  */
@@ -30,7 +33,7 @@ public class QuestsFragment extends Fragment{
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    private SQLiteDatabase db;
+    //private SQLiteDatabase db;
     private ArrayList<Quest> questEntries;
     private ArrayList<Skill> skillEntries;
 
@@ -46,7 +49,7 @@ public class QuestsFragment extends Fragment{
         View layout= inflater.inflate(R.layout.activity_quests_fragment, viewGroup, false);
 
         //Fetch the database
-        db = ((MainActivity)getActivity()).db;
+        //db = ((MainActivity)getActivity()).db;
         questEntries = ((MainActivity) getActivity()).questEntries;
         skillEntries = ((MainActivity) getActivity()).skillEntries;
 
@@ -82,17 +85,35 @@ public class QuestsFragment extends Fragment{
         Intent intent = new Intent(context, QuestAdd.class);
 
         ArrayList<Skill> testSkill = new ArrayList<>();
-        Date testDate = new Date();
-        Quest testQuest = new Quest(24, "pencho", "", 0, testSkill, 0, testDate, -1);
-        Quest testQuest2 = new Quest(25, "gosho", "", 0, testSkill, 0, testDate, -1);
-        questEntries.add(testQuest);
-        questEntries.add(testQuest2);
+        testSkill.add(skillEntries.get(0));
+        Log.d("enteredSkill", testSkill.get(0).getName());
+        //Date testDate = new Date();
+        //Quest testQuest = new Quest(24, "pencho", "", 0, testSkill, 0, testDate, -1);
+        //Quest testQuest2 = new Quest(25, "gosho", "", 0, testSkill, 0, testDate, -1);
+        //questEntries.add(testQuest);
+        //questEntries.add(testQuest2);
 
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("quests", questEntries);
         bundle.putParcelableArrayList("skills", skillEntries);
         intent.putExtra("bundle", bundle);
         startActivityForResult(intent, 1);
+    }
+
+    //After a quest has been added and the QuestAdd activity has ended update the quest entries
+    //list and notify the recyclerView adapter
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        Bundle bundle;
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+
+            bundle = data.getBundleExtra("bundle");
+            Quest newQuest = (Quest) bundle.getParcelable("quest");
+            questEntries.add(newQuest);
+            //adapter.notifyDataSetChanged();
+            Log.d("NEWQUEST", questEntries.get(questEntries.size()-1).getName());
+        }
     }
     /*
     //Populate the skillEntries list with the skills saved in the database

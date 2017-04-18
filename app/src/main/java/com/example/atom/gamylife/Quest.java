@@ -3,7 +3,10 @@ package com.example.atom.gamylife;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -12,6 +15,8 @@ import java.util.Date;
  */
 
 public class Quest implements Parcelable {
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
     private long questID;
     private String name;
@@ -35,13 +40,34 @@ public class Quest implements Parcelable {
         parentID = newParentID;
     }
 
+    public Quest(long newQuestID, String newName, String newDescr, int newExp,
+                 ArrayList<Skill> newSkillsAffected, int newDuration, String newScheduled,
+                 long newParentID) {
+        questID = newQuestID;
+        name = newName;
+        description = newDescr;
+        experience = newExp;
+        skillAffected = newSkillsAffected;
+        duration = newDuration;
+        try {
+            scheduled = sdf.parse(newScheduled);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.d("ErrorQuestID", Long.toString(questID));
+            scheduled = new Date();
+        }
+        parentID = newParentID;
+    }
+
     public Quest(Parcel in) {
+
+        skillAffected = new ArrayList<Skill>();
 
         questID = in.readLong();
         name = in.readString();
         description = in.readString();
         experience = in.readInt();
-        skillAffected = in.readArrayList(null);
+        in.readTypedList(skillAffected, Skill.CREATOR);
         duration = in.readInt();
         scheduled = (Date) in.readSerializable();
         parentID = in.readLong();
@@ -72,10 +98,15 @@ public class Quest implements Parcelable {
         dest.writeString(name);
         dest.writeString(description);
         dest.writeInt(experience);
-        dest.writeList(skillAffected);
+        dest.writeTypedList(skillAffected);
         dest.writeInt(duration);
         dest.writeSerializable(scheduled);
         dest.writeLong(parentID);
+    }
+
+    public long getID() {
+
+        return questID;
     }
 
     public String getName() {

@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/questAddLayout">
-
+    android:id="@+id/questAddLayout"
+    android:background="@color/colorPrimary">
 
     <Button
         android:id="@+id/buttonDoneQuestAdd"
@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginRight="10dp"
         android:layout_weight="1"
         android:text="Done" />
@@ -19,7 +20,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/buttonDoneQuestAdd">
+        android:layout_above="@id/buttonDoneQuestAdd"
+        android:background="@color/cardview_light_background">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -81,8 +83,8 @@
                 android:id="@+id/labelExpTextQuestAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextDescriptionQuestAdd"
-                android:layout_alignEnd="@+id/editTextDescriptionQuestAdd"
+                android:layout_below="@+id/spinnerSkillSelectorQuestAdd"
+                android:layout_alignEnd="@+id/spinnerSkillSelectorQuestAdd"
                 android:layout_marginTop="15dp"
                 android:text="xp"/>
 
@@ -90,7 +92,7 @@
                 android:id="@+id/labelExpQuestAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/editTextDescriptionQuestAdd"
+                android:layout_below="@+id/spinnerSkillSelectorQuestAdd"
                 android:layout_toLeftOf="@+id/labelExpTextQuestAdd"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="2dp"
@@ -102,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_alignStart="@+id/labelDescriptionQuestAdd"
-                android:layout_below="@+id/labelDescriptionQuestAdd"
+                android:layout_below="@+id/spinnerSkillSelectorQuestAdd"
                 android:text="Reward:"
                 android:textStyle="bold"
                 android:layout_toStartOf="@+id/labelDifficultyQuestAdd" />
@@ -112,7 +114,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="17.5dp"
-                android:layout_below="@id/editTextDescriptionQuestAdd"
+                android:layout_below="@id/spinnerSkillSelectorQuestAdd"
                 android:layout_toEndOf="@id/labelRewardQuestAdd"
                 android:text="(Varies based on skill average level)"
                 android:textSize="10sp"/>
@@ -121,7 +123,7 @@
                 android:id="@+id/labelDifficultyQuestAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/labelExpTextQuestAdd"
+                android:layout_below="@id/labelRewardQuestAdd"
                 android:layout_alignStart="@id/editTextDescriptionQuestAdd"
                 android:layout_marginTop="10dp"
                 android:text="Difficulty:"
@@ -246,7 +248,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_alignStart="@+id/labelRewardQuestAdd"
-                android:layout_below="@id/seekBarPriorityQuestAdd"
+                android:layout_below="@id/editTextDescriptionQuestAdd"
                 android:textStyle="bold"
                 android:text="Skills:"
                 android:layout_toStartOf="@+id/spinnerSkillSelectorQuestAdd" />
@@ -264,7 +266,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/labelRewardQuestAdd"
-                android:layout_below="@id/labelSkillsQuestAdd"
+                android:layout_below="@id/seekBarPriorityQuestAdd"
                 android:layout_marginTop="10dp"
                 android:text="Main quest:"
                 android:textStyle="bold"
@@ -282,11 +284,11 @@
 
             <TextView
                 android:id="@+id/labelDurationQuestAdd"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/labelRewardQuestAdd"
                 android:layout_below="@id/labelParentQuestAdd"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:text="Duration:"
                 android:textStyle="bold"
                 android:layout_toStartOf="@+id/spinnerParentSelectorQuestAdd" />
@@ -295,7 +297,7 @@
                 android:id="@+id/labelDurationHoursQuestAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_below="@id/spinnerParentSelectorQuestAdd"
                 android:layout_alignStart="@id/editTextDescriptionQuestAdd"
                 android:text="Hours"
@@ -307,7 +309,7 @@
                 android:id="@+id/labelDurationMinutesQuestAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_below="@id/spinnerParentSelectorQuestAdd"
                 android:layout_alignStart="@+id/numberPickerMinutesQuestAdd"
                 android:layout_alignEnd="@+id/numberPickerMinutesQuestAdd"
@@ -320,8 +322,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/spinnerParentSelectorQuestAdd"
-                android:layout_below="@+id/spinnerParentSelectorQuestAdd"
-                android:layout_marginTop="20dp" />
+                android:layout_below="@+id/labelDurationQuestAdd"
+                android:layout_marginTop="5dp" />
 
             <NumberPicker
                 android:id="@+id/numberPickerMinutesQuestAdd"
@@ -350,6 +352,7 @@
                 android:paddingRight="2dp"
                 android:paddingBottom="2dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/edit_text_background"
                 android:layout_alignStart="@id/numberPickerHoursQuestAdd"
                 android:layout_alignEnd="@+id/editTextNameQuestAdd"
