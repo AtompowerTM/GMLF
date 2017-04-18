@@ -7,8 +7,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import Database.GamylifeDB;
 import Database.GamylifeDbHelper;
@@ -18,6 +22,8 @@ import Database.GamylifeDbHelper;
  */
 
 public class MainActivity extends AppCompatActivity{
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
     ArrayList<Fragment> fragments;
     TabLayout tabLayout;
@@ -29,6 +35,9 @@ public class MainActivity extends AppCompatActivity{
             GamylifeDB.GamylifeSkillEntry.TABLE_NAME;
     private static final String SQL_SELECT_ALL_QUESTS = "SELECT * FROM " +
             GamylifeDB.GamylifeQuestEntry.TABLE_NAME;
+    private static final String SQL_SELECT_ALL_QUEST_SKILL = "SELECT * FROM " +
+            GamylifeDB.GamylifeQuestSkillEntry.TABLE_NAME;
+
 
     public ArrayList<Skill> skillEntries;
     public ArrayList<Quest> questEntries;
@@ -68,9 +77,10 @@ public class MainActivity extends AppCompatActivity{
         skillEntries = new ArrayList<Skill>();
         Cursor cursor = db.rawQuery(SQL_SELECT_ALL_SKILLS, null);
 
+        //Log.d("cursorSkill", Integer.toString(cursor.getCount()));
+
         while(cursor.moveToNext()) {
-            //cursor.getInt(0) is the ID of the skill (which is an autonum)
-            skillEntries.add(new Skill((long) cursor.getInt(0), cursor.getString(1),
+            skillEntries.add(new Skill( cursor.getLong(0), cursor.getString(1),
                     cursor.getString(2), cursor.getInt(3)));
         }
     }
@@ -80,8 +90,56 @@ public class MainActivity extends AppCompatActivity{
 
         questEntries = new ArrayList<Quest>();
         Cursor cursor = db.rawQuery(SQL_SELECT_ALL_QUESTS, null);
+        Cursor cursorQuestSkill = db.rawQuery(SQL_SELECT_ALL_QUEST_SKILL, null);
+
+        ArrayList<Long> allQuestIDs = new ArrayList<>();
+        ArrayList<Long> allSkillIDs = new ArrayList<>();
+
+
+        //int k = 1;
+        //Log.d("cursor", Integer.toString(cursorQuestSkill.getCount()));
+        while(cursorQuestSkill.moveToNext()) {
+
+            allQuestIDs.add(cursorQuestSkill.getLong(0));
+            allSkillIDs.add(cursorQuestSkill.getLong(1));
+        }
 
         while(cursor.moveToNext()) {
+
+            long questID = cursor.getLong(0);
+            String name = cursor.getString(1);
+            String description = cursor.getString(2);
+            int experience = cursor.getInt(3);
+
+            Log.d("quest and skill", allQuestIDs.size() + " " + allSkillIDs.size());
+
+            ArrayList<Skill> skillAffected = new ArrayList<>();
+            for(int i = 0; i < allQuestIDs.size(); i++) {
+                if(questID == allQuestIDs.get(i)) {
+                    int j = 0;
+                    while(skillEntries.get(j).getID() != allSkillIDs.get(i)) {
+                        if( j < skillEntries.size()-1)
+                            j++;
+                        //else throw exception... skill not found
+                    }
+                    skillAffected.add(skillEntries.get(j));
+                    //skillAffected.add(skillEntries.get((allSkillIDs.get(i).intValue())));
+                }
+            }
+
+            int duration = cursor.getInt(4); //in minutes
+            Date scheduled = new Date();
+            try {
+                scheduled = sdf.parse(cursor.getString(5));
+            } catch (ParseException e) {
+                e.printStackTrace();
+                scheduled = null;
+            }
+
+            long parentID = cursor.getLong(6);
+
+            questEntries.add(new Quest(questID, name, description, experience, skillAffected,
+                    duration, scheduled, parentID));
             //cursor.getInt(0) is the ID of the skill (which is an autonum)
             //questEntries.add(new Quest((long) cursor.getLong(0), cursor.getString(1),
             //        cursor.getString(2), cursor.getInt(3)));

@@ -63,10 +63,36 @@ public class QuestsFragment extends Fragment{
         layoutManager = new LinearLayoutManager(recyclerViewContext);
         recyclerView.setLayoutManager(layoutManager);
 
-        //Populate the recycler view with the quests
-        //REMOVE adapter = new AdapterQuest(questEntries);
-        //REMOVE recyclerView.setAdapter(adapter);
+        //Populate the recycler view with the skills
+        adapter = new AdapterQuest(questEntries);
+        recyclerView.setAdapter(adapter);
 
+        /*
+        //Set an onClick listener for the recycler view
+        recyclerView.addOnItemTouchListener(new SkillCustomOnClickListener(recyclerViewContext, recyclerView,
+                new SkillCustomOnClickListener.RecyclerViewItemListener() {
+                    @Override
+                    public void onClick(View view, int position) {
+                        //Toast toast = Toast.makeText(recyclerViewContext, skillEntries.get(position)
+                        //       .getName(), Toast.LENGTH_SHORT);
+                        //toast.show();!!!!!!!!!!!!!
+
+                        //skillEntries.get(position).getName();
+
+                        Intent intent = new Intent(recyclerViewContext, SkillEdit.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("skill", skillEntries.get(position));
+                        intent.putExtra("bundle", bundle);
+
+                        startActivityForResult(intent, 1);
+                    }
+
+                    @Override
+                    public void onLongClick(View view, int position) {
+
+                    }
+                }));
+*/
         FloatingActionButton addQuestButton = (FloatingActionButton) layout.findViewById(R.id.addQuestButton);
         addQuestButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +137,7 @@ public class QuestsFragment extends Fragment{
             bundle = data.getBundleExtra("bundle");
             Quest newQuest = (Quest) bundle.getParcelable("quest");
             questEntries.add(newQuest);
-            //adapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
             Log.d("NEWQUEST", questEntries.get(questEntries.size()-1).getName());
         }
     }

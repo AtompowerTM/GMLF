@@ -113,4 +113,24 @@ public class Quest implements Parcelable {
 
         return name;
     }
+
+    public Date getScheduled() {
+
+        return scheduled;
+    }
+
+    public int getDuration() {
+
+        return duration;
+    }
+
+    public int getExperience() {
+
+        return  experience;
+    }
+
+    public long getParentID() {
+
+        return parentID;
+    }
 }
