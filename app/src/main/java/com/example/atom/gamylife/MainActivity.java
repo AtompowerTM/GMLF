@@ -55,6 +55,21 @@ public class MainActivity extends AppCompatActivity{
         populateSkillEntries();
         populateQuestEntries();
 
+        //populate quests' subquests lists
+        for(int i = 0; i < questEntries.size(); i++) {
+            Quest curQuest = questEntries.get(i);
+
+            if(curQuest.getParentID() != -1) {
+                questloop:
+                for(Quest quest : questEntries) {
+                    if(quest.getID() == curQuest.getParentID()) {
+                        quest.addSubQuest(curQuest);
+                        break questloop;
+                    }
+                }
+            }
+        }
+
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
 
@@ -94,7 +109,6 @@ public class MainActivity extends AppCompatActivity{
 
         ArrayList<Long> allQuestIDs = new ArrayList<>();
         ArrayList<Long> allSkillIDs = new ArrayList<>();
-
 
         //int k = 1;
         //Log.d("cursor", Integer.toString(cursorQuestSkill.getCount()));
@@ -137,9 +151,10 @@ public class MainActivity extends AppCompatActivity{
             }
 
             long parentID = cursor.getLong(6);
+            boolean completed = cursor.getInt(7) != 0;
 
             questEntries.add(new Quest(questID, name, description, experience, skillAffected,
-                    duration, scheduled, parentID));
+                    duration, scheduled, parentID, completed));
             //cursor.getInt(0) is the ID of the skill (which is an autonum)
             //questEntries.add(new Quest((long) cursor.getLong(0), cursor.getString(1),
             //        cursor.getString(2), cursor.getInt(3)));

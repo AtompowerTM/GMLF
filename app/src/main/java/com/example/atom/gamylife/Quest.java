@@ -26,10 +26,13 @@ public class Quest implements Parcelable {
     private int duration;   //in minutes
     private Date scheduled;
     private long parentID;
+    private boolean completed;
+    private int progress;
+    private ArrayList<Quest> subquests;
 
     public Quest(long newQuestID, String newName, String newDescr, int newExp,
                       ArrayList<Skill> newSkillsAffected, int newDuration, Date newScheduled,
-                      long newParentID) {
+                      long newParentID, boolean newCompleted) {
         questID = newQuestID;
         name = newName;
         description = newDescr;
@@ -38,11 +41,14 @@ public class Quest implements Parcelable {
         duration = newDuration;
         scheduled = newScheduled;
         parentID = newParentID;
+        completed = newCompleted;
+        progress = 0;
+        subquests = new ArrayList<>();
     }
 
     public Quest(long newQuestID, String newName, String newDescr, int newExp,
                  ArrayList<Skill> newSkillsAffected, int newDuration, String newScheduled,
-                 long newParentID) {
+                 long newParentID, boolean newCompleted) {
         questID = newQuestID;
         name = newName;
         description = newDescr;
@@ -57,6 +63,9 @@ public class Quest implements Parcelable {
             scheduled = new Date();
         }
         parentID = newParentID;
+        completed = newCompleted;
+        progress = 0;
+        subquests = new ArrayList<>();
     }
 
     public Quest(Parcel in) {
@@ -71,6 +80,9 @@ public class Quest implements Parcelable {
         duration = in.readInt();
         scheduled = (Date) in.readSerializable();
         parentID = in.readLong();
+        completed = in.readByte() != 0;
+        progress = in.readInt();
+        //in.readTypedList(subquests, Quest.CREATOR);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -102,6 +114,9 @@ public class Quest implements Parcelable {
         dest.writeInt(duration);
         dest.writeSerializable(scheduled);
         dest.writeLong(parentID);
+        dest.writeByte((byte) (completed ? 1 : 0));
+        dest.writeInt(progress);
+        //dest.writeTypedList(subquests);
     }
 
     public long getID() {
@@ -112,6 +127,11 @@ public class Quest implements Parcelable {
     public String getName() {
 
         return name;
+    }
+
+    public String getDescription() {
+
+        return description;
     }
 
     public Date getScheduled() {
@@ -132,5 +152,25 @@ public class Quest implements Parcelable {
     public long getParentID() {
 
         return parentID;
+    }
+
+    public ArrayList<Skill> getSkillAffected() {
+
+        return skillAffected;
+    }
+
+    public boolean isCompleted(){
+
+        return completed;
+    }
+
+    public void addSubQuest(Quest subquest) {
+
+        subquests.add(subquest);
+    }
+
+    public ArrayList<Quest> getSubquests() {
+
+        return subquests;
     }
 }

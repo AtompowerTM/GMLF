@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
+import com.example.atom.gamylife.Skill;
+
 /**
  * Created by Atom on 04/03/2017.
  */
@@ -34,6 +36,7 @@ public final class GamylifeDB {
         public static final String COLUMN_NAME_DURATION = "Duration";
         public static final String COLUMN_NAME_SCHEDULED = "Scheduled";
         public static final String COLUMN_NAME_PARENT = "Parent";
+        public static final String COLUMN_NAME_COMPLETED = "Completed";
     }
 
     /*Inner class that defines QuestSkill table contents*/

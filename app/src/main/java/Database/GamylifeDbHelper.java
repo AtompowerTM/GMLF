@@ -29,7 +29,8 @@ public class GamylifeDbHelper extends SQLiteOpenHelper {
             GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_EXPERIENCE + " INTEGER," +
             GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_DURATION + " INTEGER," +
             GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_SCHEDULED + " TEXT," +
-            GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_PARENT + " INTEGER)";
+            GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_PARENT + " INTEGER," +
+            GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_COMPLETED + " INTEGER)";
 
     public static final String SQL_CREATE_QUEST_SKILL_ENTRIES = "CREATE TABLE " +
             GamylifeDB.GamylifeQuestSkillEntry.TABLE_NAME + " (" +

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 public class AdapterQuest extends RecyclerView.Adapter<AdapterQuest.QuestViewHolder>{
 
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     ArrayList<Quest> questList;
 
     public AdapterQuest(ArrayList<Quest> questList) {
@@ -44,7 +46,7 @@ public class AdapterQuest extends RecyclerView.Adapter<AdapterQuest.QuestViewHol
             String questName = quest.getName();
             String dueDate;
             if (quest.getScheduled() != null) {
-                dueDate = quest.getScheduled().toString();
+                dueDate = sdf.format(quest.getScheduled());
             } else {
                 dueDate = "Not scheduled";
             }
