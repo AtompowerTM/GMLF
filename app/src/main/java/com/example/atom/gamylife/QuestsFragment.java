@@ -84,7 +84,6 @@ public class QuestsFragment extends Fragment{
                         //       .getName(), Toast.LENGTH_SHORT);
                         //toast.show();!!!!!!!!!!!!!
 
-                        //skillEntries.get(position).getName();
                         Log.d("QuestPosition", Integer.toString(position));
                         //Translate mainQuestEntries position to questEntries position
                         //Log.d("oldPosition", Integer.toString(position));
