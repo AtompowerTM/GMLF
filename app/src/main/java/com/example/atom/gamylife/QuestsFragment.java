@@ -1,18 +1,22 @@
 package com.example.atom.gamylife;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
 
@@ -33,7 +37,7 @@ public class QuestsFragment extends Fragment{
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    //private SQLiteDatabase db;
+    private SQLiteDatabase db;
     private ArrayList<Quest> questEntries;
     private ArrayList<Skill> skillEntries;
     private ArrayList<Quest> mainQuestEntries;
@@ -47,17 +51,23 @@ public class QuestsFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View layout= inflater.inflate(R.layout.activity_quests_fragment, viewGroup, false);
+        final View layout= inflater.inflate(R.layout.activity_quests_fragment, viewGroup, false);
 
         //Fetch the database
-        //db = ((MainActivity)getActivity()).db;
+        db = ((MainActivity)getActivity()).db;
+
         questEntries = ((MainActivity) getActivity()).questEntries;
         skillEntries = ((MainActivity) getActivity()).skillEntries;
         mainQuestEntries = new ArrayList<>();
 
         for(int i = 0; i < questEntries.size(); i++) {
-            if(questEntries.get(i).getParentID() == -1) {
-                mainQuestEntries.add(questEntries.get(i));
+            if(!questEntries.get(i).getCompleted()) {
+                //if(questEntries.get(i).getParentID() == -1) { //this will be used to show only the main
+                    //quests in the list
+
+                    //but, for now, just show both main and subquests
+                    mainQuestEntries.add(questEntries.get(i));
+                //}
             }
         }
 
@@ -79,12 +89,24 @@ public class QuestsFragment extends Fragment{
         recyclerView.addOnItemTouchListener(new SkillCustomOnClickListener(recyclerViewContext, recyclerView,
                 new SkillCustomOnClickListener.RecyclerViewItemListener() {
                     @Override
-                    public void onClick(View view, int position) {
+                    public void onClick(View view, final int position) {
                         //Toast toast = Toast.makeText(recyclerViewContext, skillEntries.get(position)
                         //       .getName(), Toast.LENGTH_SHORT);
                         //toast.show();!!!!!!!!!!!!!
 
                         Log.d("QuestPosition", Integer.toString(position));
+
+                        new AlertDialog.Builder(layout.getContext())
+                                .setTitle("Complete")
+                                .setMessage("Do you want to complete this quest?")
+                                .setIcon(android.R.drawable.checkbox_on_background)
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        completeQuest(position);
+                                    }})
+                                .setNegativeButton(android.R.string.no, null).show();
+
                         //Translate mainQuestEntries position to questEntries position
                         //Log.d("oldPosition", Integer.toString(position));
                         /*Intent intent = new Intent(recyclerViewContext, SkillEdit.class);
@@ -175,10 +197,67 @@ public class QuestsFragment extends Fragment{
             }
             adapter.notifyDataSetChanged();
             Log.d("NEWQUEST", questEntries.get(questEntries.size()-1).getName());
-        } else {
+        } else if (requestCode == 2 && resultCode == RESULT_OK) {
             //find quest ID in questEntries and replace that quest with the new one
             //do the same for mainQuestEntries if it's there (might need to add it/remove it from there
         }
+    }
+
+    public void completeQuest(int position) {
+
+        int mainQuestEntriesPosition = position;
+        position = questEntries.indexOf(mainQuestEntries.get(position));
+
+        String SQL_UPDATE_QUEST_COMPLETED;
+        String SQL_UPDATE_SKILL_EXP;
+
+        Quest completedQuest = questEntries.get(position);
+
+        //Update affected skills' experience values in the db, the quest's affectedSkills list,
+        // and in skillEntries
+        for(int i = 0; i < completedQuest.getSkillAffected().size(); i++) {
+
+            Skill affectedSkill = completedQuest.getSkillAffected().get(i);
+            int skillPosition = findIndexOfSkill(affectedSkill.getID());
+
+            //update skill exp in questEntries's affectedSkills ArrayList
+            int newSkillTotalExp = questEntries.get(position).getSkillAffected().get(i)
+                    .gainExpAndReturnValue(completedQuest.getExperience());
+
+            //update in db
+            SQL_UPDATE_SKILL_EXP = "UPDATE " + GamylifeDB.GamylifeSkillEntry.TABLE_NAME +
+                    " SET " + GamylifeDB.GamylifeSkillEntry.COLUMN_NAME_EXPERIENCE +
+                    " = " + newSkillTotalExp + " WHERE " +
+                    GamylifeDB.GamylifeSkillEntry.COLUMN_NAME_ID + " = " + affectedSkill.getID();
+
+            db.execSQL(SQL_UPDATE_SKILL_EXP);
+
+            //update in skillEntries
+            skillEntries.get(skillPosition).setTotalExp(newSkillTotalExp);
+        }
+
+        //Update quest's status in the db, mainQuestEntries, and questEntries
+        SQL_UPDATE_QUEST_COMPLETED = "UPDATE " + GamylifeDB.GamylifeQuestEntry.TABLE_NAME +
+                " SET " + GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_COMPLETED +
+                " = 1 " + " WHERE " + GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_ID +
+                " = " + completedQuest.getID();
+
+        db.execSQL(SQL_UPDATE_QUEST_COMPLETED);
+        mainQuestEntries.remove(mainQuestEntriesPosition);
+        questEntries.get(position).setCompleted(true);
+
+        adapter.notifyDataSetChanged();
+
+    }
+
+    private int findIndexOfSkill(long ID) {
+
+        for(int i = 0; i < skillEntries.size(); i++) {
+            if(skillEntries.get(i).getID() == ID) {
+                return i;
+            }
+        }
+        return -1;
     }
     /*
     //Populate the skillEntries list with the skills saved in the database

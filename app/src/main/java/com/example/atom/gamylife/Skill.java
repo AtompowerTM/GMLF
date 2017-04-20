@@ -112,9 +112,18 @@ public class Skill implements Parcelable{
         return description;
     }
 
-    public void setTotalExp(int newExp) {
+    public void setTotalExp(int newTotalExp) {
 
-        totalExp = newExp;
+        totalExp = newTotalExp;
+        initializeLevelAndExp();
+    }
+
+    public int gainExpAndReturnValue(int gainedExp) {
+
+        totalExp += gainedExp;
+        initializeLevelAndExp();
+
+        return totalExp;
     }
 
     public int getTotalExp() {

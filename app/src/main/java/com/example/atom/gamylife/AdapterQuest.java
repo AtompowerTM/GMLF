@@ -41,7 +41,7 @@ public class AdapterQuest extends RecyclerView.Adapter<AdapterQuest.QuestViewHol
 
         long parentID = quest.getParentID();
 
-        if(parentID == -1) {
+        //if(parentID == -1) {
 
             String questName = quest.getName();
             String dueDate;
@@ -60,13 +60,14 @@ public class AdapterQuest extends RecyclerView.Adapter<AdapterQuest.QuestViewHol
 
             holder.progressBar.setMax(100);
             holder.progressBar.setProgress(progress);
+            holder.progressBar.setVisibility(View.INVISIBLE);
 
             holder.textName.setText(questName);
             holder.textDueDate.setText(dueDate);
-            holder.textDuration.setText(hours + "h " + minutes + "m ");
+            holder.textDuration.setText("Duration: " + hours + "h " + minutes + "m ");
             holder.textProgress.setText(Integer.toString(progress) + "%");
             holder.textExperience.setText(Integer.toString(experience) + "xp");
-        }
+        //}
     }
 
     @Override

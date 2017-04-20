@@ -80,10 +80,26 @@ public class MainActivity extends AppCompatActivity{
         fragments = new ArrayList<>();
         fragments.add(Fragment.instantiate(this, SkillsFragment.class.getName()));
         fragments.add(Fragment.instantiate(this, QuestsFragment.class.getName()));
-        fragments.add(Fragment.instantiate(this, QuestsFragment.class.getName()));
+        fragments.add(Fragment.instantiate(this, test.class.getName()));
 
         viewPager.setAdapter(new PageAdapter(getSupportFragmentManager(), fragments));
         tabLayout.setupWithViewPager(viewPager);
+        /*tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });*/
     }
 
     //Populate the skillEntries list with the skills saved in the database

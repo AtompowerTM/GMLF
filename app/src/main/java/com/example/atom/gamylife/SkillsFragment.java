@@ -9,9 +9,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -98,6 +100,16 @@ public class SkillsFragment extends Fragment {
         return layout;
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if (this.isVisible()) {
+            if (isVisibleToUser) {
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
 /*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -137,6 +149,11 @@ public class SkillsFragment extends Fragment {
             //toast.show();
             adapter.notifyDataSetChanged();
         }
+    }
+
+    public void getQuestCompletedNotification() {
+
+        adapter.notifyDataSetChanged();
     }
 
     //Start the skill add activity, switching to that screen

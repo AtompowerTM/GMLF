@@ -173,4 +173,14 @@ public class Quest implements Parcelable {
 
         return subquests;
     }
+
+    public void setCompleted(boolean status) {
+
+        completed = status;
+    }
+
+    public boolean getCompleted() {
+
+        return completed;
+    }
 }
