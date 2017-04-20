@@ -336,9 +336,9 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
                                 scheduledFor = sdf.parse(scheduleDate.getText().toString());
                             } catch (ParseException e) {
                                 e.printStackTrace();
-                                scheduledFor = new Date();
-                                Toast.makeText(v.getContext(), "Error parsing date.",
-                                        Toast.LENGTH_SHORT).show();
+                                scheduledFor = null;
+                                //Toast.makeText(v.getContext(), "Error parsing date.",
+                                //        Toast.LENGTH_SHORT).show();
                             }
 
                             boolean completed = false;
