@@ -183,9 +183,6 @@ public class QuestsFragment extends Fragment{
         Log.d("oldPosition", Integer.toString(position));
         position = questEntries.indexOf(mainQuestEntries.get(position));
         Log.d("newPosition", Integer.toString(position));
-        for(int i = 0; i < questEntries.get(position).getSubquests().size(); i++) {
-            Log.d("subquest ", i + " " + questEntries.get(position).getSubquests().get(i).getName());
-        }
 
         bundle.putInt("questIndex", position);
         intent.putExtra("bundle", bundle);
@@ -204,9 +201,9 @@ public class QuestsFragment extends Fragment{
             bundle = data.getBundleExtra("bundle");
             Quest newQuest = (Quest) bundle.getParcelable("quest");
             questEntries.add(newQuest);
-            if(newQuest.getParentID() == -1) {
+            //if(newQuest.getParentID() == -1) {//for future implementation of subquests
                 mainQuestEntries.add(newQuest);
-            }
+            //}
             adapter.notifyDataSetChanged();
             Log.d("NEWQUEST", questEntries.get(questEntries.size()-1).getName());
         } else if (requestCode == 2 && resultCode == RESULT_OK) {
