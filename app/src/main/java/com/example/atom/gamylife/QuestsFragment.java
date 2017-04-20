@@ -13,9 +13,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
@@ -42,13 +44,16 @@ public class QuestsFragment extends Fragment{
     private ArrayList<Skill> skillEntries;
     private ArrayList<Quest> mainQuestEntries;
 
+    private Toast levelUpToast;
+    private TextView toastText;
+
     /*
     private static final String SQL_SELECT_ALL_QUESTS = "SELECT * FROM " +
             GamylifeDB.GamylifeQuestEntry.TABLE_NAME;
     */
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         final View layout= inflater.inflate(R.layout.activity_quests_fragment, viewGroup, false);
@@ -85,14 +90,21 @@ public class QuestsFragment extends Fragment{
         adapter = new AdapterQuest(mainQuestEntries);
         recyclerView.setAdapter(adapter);
 
+        View toastLayout = inflater.inflate(R.layout.skill_levelup_toast,
+                (ViewGroup) layout.findViewById(R.id.toastLevelUp));
+
+        toastText = (TextView) toastLayout.findViewById(R.id.textToast);
+
+        levelUpToast = new Toast(toastLayout.getContext());
+        levelUpToast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        levelUpToast.setDuration(Toast.LENGTH_LONG);
+        levelUpToast.setView(toastLayout);
+
         //Set an onClick listener for the recycler view
         recyclerView.addOnItemTouchListener(new SkillCustomOnClickListener(recyclerViewContext, recyclerView,
                 new SkillCustomOnClickListener.RecyclerViewItemListener() {
                     @Override
                     public void onClick(View view, final int position) {
-                        //Toast toast = Toast.makeText(recyclerViewContext, skillEntries.get(position)
-                        //       .getName(), Toast.LENGTH_SHORT);
-                        //toast.show();!!!!!!!!!!!!!
 
                         Log.d("QuestPosition", Integer.toString(position));
 
@@ -210,6 +222,7 @@ public class QuestsFragment extends Fragment{
 
         String SQL_UPDATE_QUEST_COMPLETED;
         String SQL_UPDATE_SKILL_EXP;
+        StringBuffer toastString = new StringBuffer("Congratulations!\n");
 
         Quest completedQuest = questEntries.get(position);
 
@@ -219,6 +232,7 @@ public class QuestsFragment extends Fragment{
 
             Skill affectedSkill = completedQuest.getSkillAffected().get(i);
             int skillPosition = findIndexOfSkill(affectedSkill.getID());
+            int skillLevel = affectedSkill.getLevel();
 
             //update skill exp in questEntries's affectedSkills ArrayList
             int newSkillTotalExp = questEntries.get(position).getSkillAffected().get(i)
@@ -234,6 +248,11 @@ public class QuestsFragment extends Fragment{
 
             //update in skillEntries
             skillEntries.get(skillPosition).setTotalExp(newSkillTotalExp);
+
+            if(skillLevel < skillEntries.get(skillPosition).getLevel()) {
+                toastString.append(skillEntries.get(skillPosition).getName() +
+                        " leveled up to level " + skillEntries.get(skillPosition).getLevel() + "!\n");
+            }
         }
 
         //Update quest's status in the db, mainQuestEntries, and questEntries
@@ -248,6 +267,27 @@ public class QuestsFragment extends Fragment{
 
         adapter.notifyDataSetChanged();
 
+        if (!toastString.toString().equals("Congratulations!\n")){
+            toastText.setText(toastString);
+            levelUpToast.show();
+        }
+
+       /* Log.d("toasts", "TOASTING");
+        Toast.makeText(this.getContext(), "smthing", Toast.LENGTH_LONG);
+        Toast.makeText(this.getContext(), "smthing2", Toast.LENGTH_LONG);
+        Toast.makeText(this.getContext(), "smthingororhet", Toast.LENGTH_LONG);*/
+       /* Thread thread = new Thread(){
+            @Override
+            public void run() {
+                try {
+                    levelUpToast.show();
+                    Thread.sleep(3500); // As I am using LENGTH_LONG in Toast
+                    toastText.setText("text 2");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };*/
     }
 
     private int findIndexOfSkill(long ID) {
@@ -259,6 +299,7 @@ public class QuestsFragment extends Fragment{
         }
         return -1;
     }
+
     /*
     //Populate the skillEntries list with the skills saved in the database
     private void populateQuestEntries() {
