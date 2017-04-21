@@ -203,27 +203,27 @@ public class CalendarFragment extends Fragment implements WeekView.EventClickLis
 
         WeekViewEvent event = new WeekViewEvent(i, getEventTitle(i), startTime, endTime);
         event.setColor(getResources().getColor(R.color.event_color_01));
-        events.add(event);
 
+        int questMonth = startTime.get(Calendar.MONTH);
+        if(questMonth == (newMonth - 1)) {
+            events.add(event);
+        }
         i++;
 
         startTime = Calendar.getInstance();
         startTime.setTime(questEntries.get(i).getScheduled());
-        //startTime.set(Calendar.HOUR_OF_DAY, 3);
-        //startTime.set(Calendar.MINUTE, 30);
-        Log.d("Month", ""+startTime.get(Calendar.MONTH));
-        //startTime.set(Calendar.MONTH, newMonth-1);
-        Log.d("Month2", ""+startTime.get(Calendar.MONTH));
-        //startTime.set(Calendar.YEAR, newYear);
+
         endTime = Calendar.getInstance();
         endTime.setTime(questEntries.get(i).getScheduled());
-        endTime.set(Calendar.HOUR_OF_DAY, 17);
-        endTime.set(Calendar.MINUTE, 30);
-        //endTime.set(Calendar.MONTH, newMonth-1);
+        endTime.add(Calendar.HOUR_OF_DAY, 1);
+
         event = new WeekViewEvent(10, getEventTitle(i), startTime, endTime);
         event.setColor(getResources().getColor(R.color.event_color_02));
-        events.add(event);
 
+        questMonth = startTime.get(Calendar.MONTH);
+        if(questMonth == (newMonth - 1)) {
+            events.add(event);
+        }
         /*
         startTime = Calendar.getInstance();
         startTime.setTime(questEntries.get(i).getScheduled());
