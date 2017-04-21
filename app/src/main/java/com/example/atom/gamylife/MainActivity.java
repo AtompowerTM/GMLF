@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity{
         fragments = new ArrayList<>();
         fragments.add(Fragment.instantiate(this, SkillsFragment.class.getName()));
         fragments.add(Fragment.instantiate(this, QuestsFragment.class.getName()));
-        fragments.add(Fragment.instantiate(this, test.class.getName()));
+        fragments.add(Fragment.instantiate(this, CalendarFragment.class.getName()));
 
         viewPager.setAdapter(new PageAdapter(getSupportFragmentManager(), fragments));
         tabLayout.setupWithViewPager(viewPager);

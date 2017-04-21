@@ -1,1 +1,1 @@
-include ':app', ':libmultispinner', ':slideDateTimePicker'
+include ':app', ':libmultispinner', ':slideDateTimePicker', ':library'
