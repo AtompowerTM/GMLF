@@ -373,7 +373,7 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
 
                             setResult(Activity.RESULT_OK, returnIntent);
 
-                            //Finish this activity and return to Skills
+                            //Finish this activity and return to QuestFragment
                             finish();
 
                         } else {

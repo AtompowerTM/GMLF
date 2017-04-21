@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardViewQuest"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="@dimen/activity_vertical_margin"
+    app:cardElevation="@dimen/activity_vertical_margin">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/textNameQuestRecycler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/textDueDateRecycler"
+            android:textSize="20sp"
+            android:paddingRight="5dp"
+            android:text="QuestName"/>
+
+        <TextView
+            android:id="@+id/textDueDateRecycler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textSize="13sp"
+            android:text="Not scheduled"/>
+
+        <TextView
+            android:id="@+id/editTextObjectiveRecycler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textNameQuestRecycler"
+            android:ems="10"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:paddingBottom="2dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edit_text_background"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/textQuestDurationRecycler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/editTextObjectiveRecycler"
+            android:text="Duration:"
+            android:textSize="11sp"/>
+
+        <TextView
+            android:id="@+id/textQuestRewardRecycler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/editTextObjectiveRecycler"
+            android:text="0xp"
+            android:textSize="11sp"
+            android:gravity="right"/>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

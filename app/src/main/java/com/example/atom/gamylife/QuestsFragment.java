@@ -45,7 +45,9 @@ public class QuestsFragment extends Fragment{
     private ArrayList<Quest> mainQuestEntries;
 
     private Toast levelUpToast;
+    private Toast questCompleteToast;
     private TextView toastText;
+    private TextView questCompleteText;
 
     /*
     private static final String SQL_SELECT_ALL_QUESTS = "SELECT * FROM " +
@@ -90,15 +92,24 @@ public class QuestsFragment extends Fragment{
         adapter = new AdapterQuest(mainQuestEntries);
         recyclerView.setAdapter(adapter);
 
+        View toastLayoutQuestComplete = inflater.inflate(R.layout.skill_levelup_toast,
+                (ViewGroup) layout.findViewById(R.id.toastLevelUp));
+
         View toastLayout = inflater.inflate(R.layout.skill_levelup_toast,
                 (ViewGroup) layout.findViewById(R.id.toastLevelUp));
 
         toastText = (TextView) toastLayout.findViewById(R.id.textToast);
+        questCompleteText = (TextView) toastLayoutQuestComplete.findViewById(R.id.textToast);
 
         levelUpToast = new Toast(toastLayout.getContext());
         levelUpToast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
         levelUpToast.setDuration(Toast.LENGTH_LONG);
         levelUpToast.setView(toastLayout);
+
+        questCompleteToast = new Toast(toastLayoutQuestComplete.getContext());
+        questCompleteToast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        questCompleteToast.setDuration(Toast.LENGTH_LONG);
+        questCompleteToast.setView(toastLayoutQuestComplete);
 
         //Set an onClick listener for the recycler view
         recyclerView.addOnItemTouchListener(new SkillCustomOnClickListener(recyclerViewContext, recyclerView,
@@ -263,6 +274,9 @@ public class QuestsFragment extends Fragment{
         questEntries.get(position).setCompleted(true);
 
         adapter.notifyDataSetChanged();
+
+        questCompleteText.setText(completedQuest.getName() + " completed!");
+        questCompleteToast.show();
 
         if (!toastString.toString().equals("Congratulations!\n")){
             toastText.setText(toastString);

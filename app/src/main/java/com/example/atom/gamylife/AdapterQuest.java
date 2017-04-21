@@ -1,6 +1,7 @@
 package com.example.atom.gamylife;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ public class AdapterQuest extends RecyclerView.Adapter<AdapterQuest.QuestViewHol
     public AdapterQuest.QuestViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.custom_quest_recycler_view, parent, false);
+                inflate(R.layout.custom_quest_recycler_view_v1, parent, false);
         AdapterQuest.QuestViewHolder viewHolder = new AdapterQuest.QuestViewHolder(view);
 
         return viewHolder;
@@ -44,6 +45,12 @@ public class AdapterQuest extends RecyclerView.Adapter<AdapterQuest.QuestViewHol
         //if(parentID == -1) {
 
             String questName = quest.getName();
+            String questObjective = quest.getDescription();
+           /* if(questObjective.equals(null)) {
+                questObjective = "";
+            } else {
+                Log.d("objective", "not null");
+            }*/
             String dueDate;
             if (quest.getScheduled() != null) {
                 dueDate = sdf.format(quest.getScheduled());
@@ -57,15 +64,17 @@ public class AdapterQuest extends RecyclerView.Adapter<AdapterQuest.QuestViewHol
             int progress = 0;
             int experience = quest.getExperience();
 
-
+            /*//for v2
             holder.progressBar.setMax(100);
             holder.progressBar.setProgress(progress);
-            holder.progressBar.setVisibility(View.INVISIBLE);
+            holder.progressBar.setVisibility(View.INVISIBLE);*/
 
             holder.textName.setText(questName);
             holder.textDueDate.setText(dueDate);
+            holder.textObjective.setText(questObjective);   //v1
+            //for v2
+            //holder.textProgress.setText(Integer.toString(progress) + "%");
             holder.textDuration.setText("Duration: " + hours + "h " + minutes + "m ");
-            holder.textProgress.setText(Integer.toString(progress) + "%");
             holder.textExperience.setText(Integer.toString(experience) + "xp");
         //}
     }
@@ -79,8 +88,10 @@ public class AdapterQuest extends RecyclerView.Adapter<AdapterQuest.QuestViewHol
 
         protected TextView textName;
         protected TextView textDueDate;
-        protected ProgressBar progressBar;
-        protected TextView textProgress;
+        protected TextView textObjective;   //v1
+        /*//v2
+        //protected ProgressBar progressBar;
+        //protected TextView textProgress;*/
         protected TextView textDuration;
         protected TextView textExperience;
 
@@ -88,8 +99,10 @@ public class AdapterQuest extends RecyclerView.Adapter<AdapterQuest.QuestViewHol
             super(itemView);
             textName = (TextView) itemView.findViewById(R.id.textNameQuestRecycler);
             textDueDate = (TextView) itemView.findViewById(R.id.textDueDateRecycler);
+            textObjective = (TextView) itemView.findViewById(R.id.editTextObjectiveRecycler);   //v1
+            /*//v2
             progressBar = (ProgressBar) itemView.findViewById(R.id.progressBarQuestRecycler);
-            textProgress = (TextView) itemView.findViewById(R.id.textQuestProgressRecycler);
+            textProgress = (TextView) itemView.findViewById(R.id.textQuestProgressRecycler);*/
             textDuration = (TextView) itemView.findViewById(R.id.textQuestDurationRecycler);
             textExperience = (TextView) itemView.findViewById(R.id.textQuestRewardRecycler);
         }
