@@ -5,9 +5,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -55,6 +58,9 @@ public class MainActivity extends AppCompatActivity{
         populateSkillEntries();
         populateQuestEntries();
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         //populate quests' subquests lists
         for(int i = 0; i < questEntries.size(); i++) {
             Quest curQuest = questEntries.get(i);
@@ -100,6 +106,12 @@ public class MainActivity extends AppCompatActivity{
 
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_calendar, menu);
+        return true;
     }
 
     //Populate the skillEntries list with the skills saved in the database

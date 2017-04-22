@@ -19,7 +19,9 @@
         android:id="@+id/tabs"
         android:layout_height="?attr/actionBarSize"
         android:layout_width="match_parent"
+        android:layout_below="@id/toolbar"
         app:tabTextColor="@android:color/darker_gray"
+        android:background="?attr/colorPrimary"
         app:tabSelectedTextColor="@android:color/white"/>
 
     <com.example.atom.gamylife.CustomViewPager

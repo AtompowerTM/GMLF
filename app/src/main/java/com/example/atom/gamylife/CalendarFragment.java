@@ -43,7 +43,7 @@ public class CalendarFragment extends Fragment implements WeekView.EventClickLis
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
     private WeekView mWeekView;
 
-    List<WeekViewEvent> events;
+    List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
     private ArrayList<Skill> skillEntries;
     private ArrayList<Quest> questEntries;
 
@@ -57,6 +57,7 @@ public class CalendarFragment extends Fragment implements WeekView.EventClickLis
         // Inflate the layout for this fragment
         final View layout = inflater.inflate(R.layout.activity_calendar_fragment, viewGroup, false);
 
+        setHasOptionsMenu(true);
         context = layout.getContext();
 
         //fetch questEntries and skillEntries
@@ -86,23 +87,16 @@ public class CalendarFragment extends Fragment implements WeekView.EventClickLis
         return layout;
     }
 
-    /*@Override
-    public void onResume() {
-        super.onResume();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
-        Log.d("adding event", "Event 3");
-        Calendar startTime = Calendar.getInstance();
-        Calendar endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.MINUTE, 85);
-
-        WeekViewEvent event = new WeekViewEvent(10, "added one", startTime, endTime);
-        event.setColor(getResources().getColor(R.color.event_color_03));
-
-        events.add(event);
-
-        mWeekView.notifyDatasetChanged();
-
-    }*/
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
