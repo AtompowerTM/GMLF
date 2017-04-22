@@ -51,7 +51,7 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
 
     EditText nameText, descriptionText;
 
-    Button doneButton, editDoneButton;
+    Button doneButton, editDoneButton, enableEditsButton;
     TextView scheduleDate;
     NumberPicker hourPicker;
     NumberPicker minutePicker;
@@ -281,6 +281,7 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
 
                 new SlideDateTimePicker.Builder(getSupportFragmentManager())
                         .setListener(listener)
+                        .setMinDate(new Date())
                         .setInitialDate(new Date())
                         .build()
                         .show();
@@ -294,12 +295,20 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
             }
 
         }
+
+        if(mode == 2) {
+            disableAllElements();
+        }
+
         //_____________________________________BUTTON_______________________________________________
 
         if(mode == 1) {
             editDoneButton = (Button) findViewById(R.id.buttonEditDoneQuestAdd);
             editDoneButton.setEnabled(false);
             editDoneButton.setVisibility(View.INVISIBLE);
+            enableEditsButton = (Button) findViewById(R.id.buttonEnableEditsQuestAdd);
+            enableEditsButton.setEnabled(false);
+            enableEditsButton.setVisibility(View.INVISIBLE);
             doneButton = (Button) findViewById(R.id.buttonDoneQuestAdd);
             doneButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -394,8 +403,55 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
             doneButton = (Button) findViewById(R.id.buttonDoneQuestAdd);
             doneButton.setEnabled(false);
             doneButton.setVisibility(View.INVISIBLE);
+
             editDoneButton = (Button) findViewById(R.id.buttonEditDoneQuestAdd);
+            editDoneButton.setEnabled(false);
+            editDoneButton.setVisibility(View.INVISIBLE);
+            editDoneButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(v.getContext(), "Editing not yet implemented.", Toast.LENGTH_LONG).show();
+                }
+            });
+
+            enableEditsButton = (Button) findViewById(R.id.buttonEnableEditsQuestAdd);
+            enableEditsButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(v.getContext(), "Editing not yet implemented.", Toast.LENGTH_LONG).show();
+
+                    enableEditsButton.setVisibility(View.INVISIBLE);
+                    enableEditsButton.setEnabled(false);
+
+                    editDoneButton.setVisibility(View.VISIBLE);
+                    editDoneButton.setEnabled(true);
+
+                }
+            });
         }
+    }
+
+    private void disableAllElements() {
+        nameText.setFocusable(false);
+        nameText.setEnabled(false);
+        descriptionText.setFocusable(false);
+        descriptionText.setEnabled(false);
+        skillSelector.setEnabled(false);
+        difficultySlider.setEnabled(false);
+        urgencySlider.setEnabled(false);
+        prioritySlider.setEnabled(false);
+        parentSelector.setEnabled(false);
+        hourPicker.setEnabled(false);
+        hourPicker.setFocusable(false);
+        hourPicker.setDescendantFocusability(hourPicker.FOCUS_BLOCK_DESCENDANTS);
+        minutePicker.setEnabled(false);
+        minutePicker.setFocusable(false);
+        minutePicker.setDescendantFocusability(hourPicker.FOCUS_BLOCK_DESCENDANTS);
+        scheduleDate.setEnabled(false);
+
+        //Undo the block descendants with these:
+        //hourPicker.setDescendantFocusability(hourPicker.FOCUS_AFTER_DESCENDANTS);
+        //minutePicker.setDescendantFocusability(hourPicker.FOCUS_AFTER_DESCENDANTS);
     }
 
     private SlideDateTimeListener listener = new SlideDateTimeListener() {

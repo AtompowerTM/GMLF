@@ -188,21 +188,17 @@ public class CalendarFragment extends Fragment implements WeekView.EventClickLis
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
         //Toast.makeText(this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
         Log.d("Clicked ", event.getName() + " with ID: " + event.getId());
-        /*Intent intent = new Intent(context, QuestAdd.class);
+        Intent intent = new Intent(context, QuestAdd.class);
 
         Bundle bundle = new Bundle();
-        bundle.putInt("mode", 2); //mode 1 is add quest; mode 2 is edit quest
+        bundle.putInt("mode", 2); //mode 1 is add quest; mode 2 is edit quest;
         bundle.putParcelableArrayList("quests", questEntries);
         bundle.putParcelableArrayList("skills", skillEntries);
 
         //Translate mainQuestEntries position to questEntries position
-        Log.d("oldPosition", Integer.toString(position));
-        position = questEntries.indexOf(mainQuestEntries.get(position));
-        Log.d("newPosition", Integer.toString(position));
-
-        bundle.putInt("questIndex", position);
+        bundle.putInt("questIndex", (int) event.getId() - 1);
         intent.putExtra("bundle", bundle);
-        startActivityForResult(intent, 2);*/
+        startActivityForResult(intent, 2);
     }
 
     @Override
