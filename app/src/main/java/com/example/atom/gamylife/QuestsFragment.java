@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alamkanak.weekview.WeekView;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
 
 import java.util.ArrayList;
@@ -216,6 +217,7 @@ public class QuestsFragment extends Fragment{
                 mainQuestEntries.add(newQuest);
             //}
             adapter.notifyDataSetChanged();
+
             Log.d("NEWQUEST", questEntries.get(questEntries.size()-1).getName());
         } else if (requestCode == 2 && resultCode == RESULT_OK) {
             //find quest ID in questEntries and replace that quest with the new one

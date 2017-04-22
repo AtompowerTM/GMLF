@@ -1,5 +1,7 @@
 package com.example.atom.gamylife;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -41,7 +43,11 @@ public class CalendarFragment extends Fragment implements WeekView.EventClickLis
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
     private WeekView mWeekView;
 
+    List<WeekViewEvent> events;
+    private ArrayList<Skill> skillEntries;
     private ArrayList<Quest> questEntries;
+
+    Context context;
 
     private int pencho = 0;
 
@@ -51,7 +57,10 @@ public class CalendarFragment extends Fragment implements WeekView.EventClickLis
         // Inflate the layout for this fragment
         final View layout = inflater.inflate(R.layout.activity_calendar_fragment, viewGroup, false);
 
-        //fetch questEntries
+        context = layout.getContext();
+
+        //fetch questEntries and skillEntries
+        skillEntries = ((MainActivity) getActivity()).skillEntries;
         questEntries = ((MainActivity) getActivity()).questEntries;
 
         // Get a reference for the week view in the layout.
@@ -76,6 +85,24 @@ public class CalendarFragment extends Fragment implements WeekView.EventClickLis
 
         return layout;
     }
+
+    /*@Override
+    public void onResume() {
+        super.onResume();
+
+        Log.d("adding event", "Event 3");
+        Calendar startTime = Calendar.getInstance();
+        Calendar endTime = (Calendar) startTime.clone();
+        endTime.add(Calendar.MINUTE, 85);
+
+        WeekViewEvent event = new WeekViewEvent(10, "added one", startTime, endTime);
+        event.setColor(getResources().getColor(R.color.event_color_03));
+
+        events.add(event);
+
+        mWeekView.notifyDatasetChanged();
+
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -160,7 +187,22 @@ public class CalendarFragment extends Fragment implements WeekView.EventClickLis
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
         //Toast.makeText(this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
-        Log.d("Clicked ", event.getName());
+        Log.d("Clicked ", event.getName() + " with ID: " + event.getId());
+        /*Intent intent = new Intent(context, QuestAdd.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("mode", 2); //mode 1 is add quest; mode 2 is edit quest
+        bundle.putParcelableArrayList("quests", questEntries);
+        bundle.putParcelableArrayList("skills", skillEntries);
+
+        //Translate mainQuestEntries position to questEntries position
+        Log.d("oldPosition", Integer.toString(position));
+        position = questEntries.indexOf(mainQuestEntries.get(position));
+        Log.d("newPosition", Integer.toString(position));
+
+        bundle.putInt("questIndex", position);
+        intent.putExtra("bundle", bundle);
+        startActivityForResult(intent, 2);*/
     }
 
     @Override
@@ -175,17 +217,17 @@ public class CalendarFragment extends Fragment implements WeekView.EventClickLis
         //Log.d("Empty view long pressed", getEventTitle(time));
     }
 
-    public WeekView getWeekView() {
+    /*public WeekView getWeekView() {
         return mWeekView;
-    }
+    }*/
 
-    @Override
-    public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
+    private void populateEvents(int newYear, int newMonth) {
 
-        pencho++;
-        Log.d("MakingList", "making list" + pencho);
-        // Populate the week view with some events.
-        List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+        Calendar eventStart = Calendar.getInstance();
+        Calendar eventEnd = Calendar.getInstance();
+        WeekViewEvent event;
+        int questMonth;
+        int questYear;
 
         /*Calendar startTime = Calendar.getInstance();
         startTime.set(Calendar.HOUR_OF_DAY, 3);
@@ -194,45 +236,59 @@ public class CalendarFragment extends Fragment implements WeekView.EventClickLis
         startTime.set(Calendar.YEAR, newYear);
         Calendar endTime = (Calendar) startTime.clone();
         endTime.add(Calendar.HOUR, 1);
-        endTime.set(Calendar.MONTH, newMonth - 1);*/
-        int i = questEntries.size()-2;
-        Calendar startTime = Calendar.getInstance();
-        startTime.setTime(questEntries.get(i).getScheduled());
-        Calendar endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.MINUTE, 85);
-
-        WeekViewEvent event = new WeekViewEvent(i, getEventTitle(i), startTime, endTime);
+        endTime.set(Calendar.MONTH, newMonth - 1);
+        event = new WeekViewEvent(10, "this is a generic event", startTime, endTime);
         event.setColor(getResources().getColor(R.color.event_color_01));
-
-        int questMonth = startTime.get(Calendar.MONTH);
-        if(questMonth == (newMonth - 1)) {
-            events.add(event);
-        }
-        i++;
-
-        startTime = Calendar.getInstance();
-        startTime.setTime(questEntries.get(i).getScheduled());
-
-        endTime = Calendar.getInstance();
-        endTime.setTime(questEntries.get(i).getScheduled());
-        endTime.add(Calendar.HOUR_OF_DAY, 1);
-
-        event = new WeekViewEvent(10, getEventTitle(i), startTime, endTime);
-        event.setColor(getResources().getColor(R.color.event_color_02));
-
-        questMonth = startTime.get(Calendar.MONTH);
-        if(questMonth == (newMonth - 1)) {
-            events.add(event);
-        }
-        /*
-        startTime = Calendar.getInstance();
-        startTime.setTime(questEntries.get(i).getScheduled());
-        endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.MINUTE, 85);
-
-        event = new WeekViewEvent(i, getEventTitle(i), startTime, endTime);
-        event.setColor(getResources().getColor(R.color.event_color_03));
         events.add(event);*/
+
+        for(Quest quest : questEntries) {
+            Log.d("LookingAtQuestName", quest.getName());
+
+
+            if(!quest.getCompleted() && quest.getScheduled() != null) {
+                Log.d("QuestPassed1IF", quest.getName());
+
+                //Calendar scheduledFor = Calendar.getInstance();
+                //scheduledFor.setTime(quest.getScheduled());
+                eventStart = Calendar.getInstance();
+                eventStart.setTime(quest.getScheduled());
+               /* eventStart.set(Calendar.HOUR_OF_DAY, scheduledFor.get(Calendar.HOUR_OF_DAY));
+                eventStart.set(Calendar.MINUTE, scheduledFor.get(Calendar.MINUTE));
+                eventStart.set(Calendar.DATE, scheduledFor.get(Calendar.DATE));
+                eventStart.set(Calendar.MONTH, scheduledFor.get(Calendar.MONTH));
+                eventStart.set(Calendar.YEAR, scheduledFor.get(Calendar.YEAR));*/
+                //eventStart.setTime(scheduledFor);
+                eventEnd = ((Calendar)eventStart.clone());
+
+                questMonth = eventStart.get(Calendar.MONTH);
+                questYear = eventStart.get(Calendar.YEAR);
+
+                if(questYear == (newYear) && questMonth == (newMonth - 1)) {
+                    Log.d("QuestPassed2IF", quest.getName());
+                    /*eventEnd.set(Calendar.HOUR_OF_DAY, eventStart.get(Calendar.HOUR_OF_DAY));
+                    eventEnd.set(Calendar.MINUTE, eventStart.get(Calendar.MINUTE));
+                    eventEnd.set(Calendar.DATE, eventStart.get(Calendar.DATE));
+                    eventEnd.set(Calendar.MONTH, eventStart.get(Calendar.MONTH));
+                    eventEnd.set(Calendar.YEAR, eventStart.get(Calendar.YEAR));*/
+                    eventEnd.add(Calendar.MINUTE, quest.getDuration());
+
+                    Log.d("EventEnd", "Event: " + quest.getName() + " with start: " + eventStart.getTime() + " and with end: " + eventEnd.getTime());
+                    event = new WeekViewEvent(quest.getID(), quest.getName(), eventStart, eventEnd);
+                    event.setColor(getResources().getColor(R.color.event_color_01));
+
+                    events.add(event);
+                }
+            }
+        }
+    }
+
+    @Override
+    public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
+
+        Log.d("MakingList", "making list" + pencho);
+        // Populate the week view with some events.
+        events = new ArrayList<WeekViewEvent>();
+        populateEvents(newYear, newMonth);
 
         Log.d("EventsSize", Integer.toString(events.size()));
         return events;
