@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity{
         }
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        final CustomViewPager viewPager = (CustomViewPager) findViewById(R.id.viewPager);
 
         tabLayout.addTab(tabLayout.newTab().setText("Skills"));
         tabLayout.addTab(tabLayout.newTab().setText("Quests"));
@@ -83,11 +83,11 @@ public class MainActivity extends AppCompatActivity{
         fragments.add(Fragment.instantiate(this, CalendarFragment.class.getName()));
 
         viewPager.setAdapter(new PageAdapter(getSupportFragmentManager(), fragments));
+
         tabLayout.setupWithViewPager(viewPager);
-        /*tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
             }
 
             @Override
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity{
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
-        });*/
+        });
     }
 
     //Populate the skillEntries list with the skills saved in the database
