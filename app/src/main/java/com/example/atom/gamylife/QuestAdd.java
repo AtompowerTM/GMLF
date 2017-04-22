@@ -159,15 +159,15 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
                 calculateReward();
             }
 
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
-                }
+            }
 
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
 
-                }
+            }
         });
 
         //Priority------------------------------------
@@ -306,83 +306,87 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
                 public void onClick(View v) {
 
                     List<Integer> selectedSkills = skillSelector.getSelectedIndices();
-                    if (selectedSkills.size() > 0) {
-                        if (!nameText.getText().toString().equals("")) {
+                    if (selectedSkills.size() > 0 && !nameText.getText().toString().equals("") &&
+                            (hourPicker.getValue() != 0 || minutePicker.getValue() != 0)) {
 
-                            String questName = nameText.getText().toString();
-                            String questDescription = descriptionText.getText().toString();
+                        String questName = nameText.getText().toString();
+                        String questDescription = descriptionText.getText().toString();
 
-                            ArrayList<Skill> affectedSkills = new ArrayList<Skill>();
+                        ArrayList<Skill> affectedSkills = new ArrayList<Skill>();
 
-                            for (int i = 0; i < selectedSkills.size(); i++) {
-                                affectedSkills.add(skillEntries.get(selectedSkills.get(i)));
-                                Log.d("affected", skillEntries.get(selectedSkills.get(i)).getName());
-                            }
+                        for (int i = 0; i < selectedSkills.size(); i++) {
+                            affectedSkills.add(skillEntries.get(selectedSkills.get(i)));
+                            Log.d("affected", skillEntries.get(selectedSkills.get(i)).getName());
+                        }
 
-                            calculateReward();
-                            int experience = (int) expReward;
-                            long parentQuest;
-                            if ((parentSelector.getSelectedItemId() - 1) != -1) {
-                                parentQuest = questEntries.get(
-                                        (int) parentSelector.getSelectedItemId() - 1).getID(); //-1 for no
-                            } else {
-                                parentQuest = -1; // no parent
-                            }
-
-                            int duration = hourPicker.getValue() * 60 + minutePicker.getValue();
-                            String scheduledForText = scheduleDate.getText().toString();
-                            Date scheduledFor;
-                            try {
-                                scheduledFor = sdf.parse(scheduleDate.getText().toString());
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                                scheduledFor = null;
-                                //Toast.makeText(v.getContext(), "Error parsing date.",
-                                //        Toast.LENGTH_SHORT).show();
-                            }
-
-                            boolean completed = false;
-
-                            ContentValues values = new ContentValues();
-                            values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_NAME, questName);
-                            values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_DESCRIPTION, questDescription);
-                            values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_EXPERIENCE, experience);
-                            values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_DURATION, duration);
-                            values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_SCHEDULED, scheduledForText);
-                            values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_PARENT, parentQuest);
-                            values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_COMPLETED, 0);
-
-                            long questID = db.insert(GamylifeDB.GamylifeQuestEntry.TABLE_NAME, null, values);
-
-                            ContentValues valuesQuestSkill = new ContentValues();
-                            for (int i = 0; i < affectedSkills.size(); i++) {
-                                valuesQuestSkill.put(GamylifeDB.GamylifeQuestSkillEntry.COLUMN_NAME_QUEST_ID, questID);
-                                valuesQuestSkill.put(GamylifeDB.GamylifeQuestSkillEntry.COLUMN_NAME_SKILL_ID, affectedSkills.get(i).getID());
-                                db.insert(GamylifeDB.GamylifeQuestSkillEntry.TABLE_NAME, null, valuesQuestSkill);
-                                valuesQuestSkill.clear();
-                            }
-
-                            Quest newQuest = new Quest(questID, questName, questDescription, experience,
-                                    affectedSkills, duration, scheduledFor, parentQuest, completed);
-
-                            Intent returnIntent = new Intent();
-
-                            Bundle bundle = new Bundle();
-                            bundle.putParcelable("quest", newQuest);
-                            returnIntent.putExtra("bundle", bundle);
-
-                            setResult(Activity.RESULT_OK, returnIntent);
-
-                            //Finish this activity and return to QuestFragment
-                            finish();
-
+                        calculateReward();
+                        int experience = (int) expReward;
+                        long parentQuest;
+                        if ((parentSelector.getSelectedItemId() - 1) != -1) {
+                            parentQuest = questEntries.get(
+                                    (int) parentSelector.getSelectedItemId() - 1).getID(); //-1 for no
                         } else {
-                            Toast.makeText(v.getContext(), "Please enter quest name.",
+                            parentQuest = -1; // no parent
+                        }
+
+                        int duration = hourPicker.getValue() * 60 + minutePicker.getValue();
+                        String scheduledForText = scheduleDate.getText().toString();
+                        Date scheduledFor;
+                        try {
+                            scheduledFor = sdf.parse(scheduleDate.getText().toString());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            scheduledFor = null;
+                            //Toast.makeText(v.getContext(), "Error parsing date.",
+                            //        Toast.LENGTH_SHORT).show();
+                        }
+
+                        boolean completed = false;
+
+                        ContentValues values = new ContentValues();
+                        values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_NAME, questName);
+                        values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_DESCRIPTION, questDescription);
+                        values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_EXPERIENCE, experience);
+                        values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_DURATION, duration);
+                        values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_SCHEDULED, scheduledForText);
+                        values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_PARENT, parentQuest);
+                        values.put(GamylifeDB.GamylifeQuestEntry.COLUMN_NAME_COMPLETED, 0);
+
+                        long questID = db.insert(GamylifeDB.GamylifeQuestEntry.TABLE_NAME, null, values);
+
+                        ContentValues valuesQuestSkill = new ContentValues();
+                        for (int i = 0; i < affectedSkills.size(); i++) {
+                            valuesQuestSkill.put(GamylifeDB.GamylifeQuestSkillEntry.COLUMN_NAME_QUEST_ID, questID);
+                            valuesQuestSkill.put(GamylifeDB.GamylifeQuestSkillEntry.COLUMN_NAME_SKILL_ID, affectedSkills.get(i).getID());
+                            db.insert(GamylifeDB.GamylifeQuestSkillEntry.TABLE_NAME, null, valuesQuestSkill);
+                            valuesQuestSkill.clear();
+                        }
+
+                        Quest newQuest = new Quest(questID, questName, questDescription, experience,
+                                affectedSkills, duration, scheduledFor, parentQuest, completed);
+
+                        Intent returnIntent = new Intent();
+
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("quest", newQuest);
+                        returnIntent.putExtra("bundle", bundle);
+
+                        setResult(Activity.RESULT_OK, returnIntent);
+
+                        //Finish this activity and return to QuestFragment
+                        finish();
+
+                    } else {
+                        if(selectedSkills.size() <= 0) {
+                            Toast.makeText(v.getContext(), "Please choose at least one skill.",
+                                    Toast.LENGTH_SHORT).show();
+                        } else if(nameText.getText().toString().equals("")) {
+                            Toast.makeText(v.getContext(), "Please enter a skill name.",
+                                    Toast.LENGTH_SHORT).show();
+                        } else if((hourPicker.getValue() == 0 && minutePicker.getValue() == 0)) {
+                            Toast.makeText(v.getContext(), "Duration cannot be 0h 0m.",
                                     Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Toast.makeText(v.getContext(), "Please choose at least one skill.",
-                                Toast.LENGTH_SHORT).show();
                     }
                 }
             });
