@@ -110,23 +110,6 @@ public class SkillsFragment extends Fragment {
             }
         }
     }
-/*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        // Handle action bar item clicks here. The action bar will !!!!!!
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-*/
 
     //After a skill has been added and the Skill add activity has ended update the skill entries
     //list and notify the recyclerView adapter

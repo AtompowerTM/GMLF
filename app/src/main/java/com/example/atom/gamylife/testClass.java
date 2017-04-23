@@ -20,7 +20,7 @@ import java.util.Date;
  * Created by Atom on 16/04/2017.
  */
 
-public class test extends Fragment {
+public class testClass extends Fragment {
 
     TextView textView;
     CalendarView calendarView;

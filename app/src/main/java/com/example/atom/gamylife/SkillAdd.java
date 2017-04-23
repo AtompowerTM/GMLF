@@ -54,11 +54,6 @@ public class SkillAdd extends AppCompatActivity {
 
         //Add the new skill's values as a return intent to update the skill entries array list
         Intent returnIntent = new Intent();
-        /*
-        returnIntent.putExtra("SKILL_NAME", name);!!!!!!!!!!!!
-        returnIntent.putExtra("SKILL_DESCRIPTION", description);
-        returnIntent.putExtra("SKILL_EXP", 0);
-        */
 
         Skill newSkill = new Skill(skillID, name, description, startExp);
 

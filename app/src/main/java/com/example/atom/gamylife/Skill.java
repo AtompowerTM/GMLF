@@ -17,7 +17,6 @@ public class Skill implements Parcelable{
     private int level;
     private int expForCurLevel;
 
-    //Used when creating new skill from app!!!!!!!!!!!!
     public Skill(String newName, String newDescr, int newTotalExp) {
 
         name = newName;

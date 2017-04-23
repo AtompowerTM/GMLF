@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.IntegerRes;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,6 +24,10 @@ import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
 import com.guna.libmultispinner.MultiSelectionSpinner;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -209,10 +214,17 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
         skillSelector = (MultiSelectionSpinner) findViewById(R.id.spinnerSkillSelectorQuestAdd);
 
         if(mode == 1){
-            position = 0;
+            position = -1;
         }
 
-        int[] selectedSkills = new int[questEntries.get(position).getSkillAffected().size()];
+        int numOfSelections;
+        if(position > -1) { //if there are any quests entered
+            numOfSelections = questEntries.get(position).getSkillAffected().size();
+        } else {
+            numOfSelections = 0;
+        }
+        int[] selectedSkills = new int[numOfSelections];
+
         int k = 0;
         for (int i = 0; i < skillNames.length; i++) {
             skillNames[i] = skillEntries.get(i).getName();
@@ -232,7 +244,7 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
         }
         skillSelector.setListener(this);
 
-        //____________________________________QUEST SELECTOR TBC________________________________________
+        //____________________________________QUEST SELECTOR________________________________________
         String[] questNames = new String[questEntries.size() + 1];
         questNames[0] = "None";
 
@@ -407,10 +419,12 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
             editDoneButton = (Button) findViewById(R.id.buttonEditDoneQuestAdd);
             editDoneButton.setEnabled(false);
             editDoneButton.setVisibility(View.INVISIBLE);
+            editDoneButton.setText("Export DB");
             editDoneButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "Editing not yet implemented.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(v.getContext(), "Exporting database to SD card.", Toast.LENGTH_LONG).show();
+                    exportDatabse("GamylifeDB.db");
                 }
             });
 
@@ -428,6 +442,32 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
 
                 }
             });
+        }
+    }
+
+    public void exportDatabse(String databaseName) {
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+            if (sd.canWrite()) {
+                String currentDBPath = "//data//"+getPackageName()+"//databases//"+databaseName+"";
+                String backupDBPath = "GamylifeBackup.db";
+                Log.d("SD CARD: ", Environment.getExternalStorageDirectory().getAbsolutePath());
+                File currentDB = new File(data, currentDBPath);
+                File backupDB = new File(sd, backupDBPath);
+
+                if (currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                    Log.d("SuccessfulExport", "Done");
+                }
+            }
+        } catch (Exception e) {
+            Log.d("FailExport", "Not Done");
         }
     }
 
@@ -457,7 +497,7 @@ public class QuestAdd extends AppCompatActivity implements MultiSelectionSpinner
     private SlideDateTimeListener listener = new SlideDateTimeListener() {
 
         @Override
-        public void onDateTimeSet(Date date) { //!!!!!!!!!!!!!!
+        public void onDateTimeSet(Date date) {
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
